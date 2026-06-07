@@ -1,0 +1,456 @@
+
+
+Name       Mode   Length LastWriteTime       
+----       ----   ------ -------------       
+foto       dar--l        5/11/2026 4:23:45 PM
+index.html -a---l 44270  4/26/2026 3:43:17 PM
+logo.png   -a---l 457691 3/16/2026 2:18:39 AM
+review.png -a---l 4366   3/16/2026 1:57:18 AM
+
+
+---
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rustiqe | Restoran & Meni</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,w
+ght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="styl
+esheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rustiqe: {
+                            light: '#f9f6f0',
+                            DEFAULT: '#8b5a2b',
+                            dark: '#3e2723',
+                            accent: '#d4a373'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f9f6f0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='
+60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fi
+ll-rule='evenodd'%3E%3Cg fill='%238b5a2b' fill-opacity='0.05'%3E%3Cpath d='M36 3
+4v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v
+2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+;
+        }
+        
+        .menu-item-dots {
+            flex-grow: 1;
+            border-bottom: 2px dotted #ccc;
+            margin: 0 10px;
+            position: relative;
+            top: -6px;
+            opacity: 0.6;
+        }
+
+        .tab-btn.active {
+            background-color: #3e2723;
+            color: #f9f6f0;
+            border-color: #3e2723;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .image-placeholder {
+            background-color: #eaddcf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b5a2b;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            border: 1px solid #d4a373;
+        }
+
+        /* Agresivno sakrivanje Elfsight watermark-a */
+        .eapps-link, 
+        div[class^="elfsight-app"] > a,
+        a[href*="elfsight.com"] {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            position: absolute !important;
+            top: -9999px !important;
+            left: -9999px !important;
+            z-index: -9999 !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+    </style>
+</head>
+<body class="font-sans text-rustiqe-dark antialiased">
+
+    <header class="relative min-h-[26rem] md:h-96 flex items-center justify-cent
+er overflow-hidden py-12 md:py-0">
+        <div class="absolute inset-0 bg-rustiqe-dark opacity-80 z-10"></div>
+        <div class="absolute inset-0 w-full h-full object-cover z-0 image-placeh
+older text-2xl"></div>
+        
+        <div class="absolute top-4 right-4 md:top-6 md:right-6 z-30 bg-[#3e2723]
+/80 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full flex items-center 
+gap-2 md:gap-3 border border-[#d4a373]/30 shadow-lg">
+            <button id="lang-lat" onclick="setLanguage('lat')" class="lang-btn f
+ont-bold text-white transition-all text-xs md:text-sm tracking-wider">LAT</butto
+n>
+            <span class="text-[#d4a373] opacity-50 text-[10px] md:text-xs">|</sp
+an>
+            <button id="lang-cyr" onclick="setLanguage('cyr')" class="lang-btn f
+ont-bold text-[#d4a373] hover:text-white transition-all text-xs md:text-sm track
+ing-wider">Ð‹Ð˜Ð </button>
+            <span class="text-[#d4a373] opacity-50 text-[10px] md:text-xs">|</sp
+an>
+            <button id="lang-en" onclick="setLanguage('en')" class="lang-btn fon
+t-bold text-[#d4a373] hover:text-white transition-all text-xs md:text-sm trackin
+g-wider">EN</button>
+        </div>
+        
+        <div class="relative z-20 text-center px-4 max-w-3xl mx-auto mt-12 md:mt
+-0">
+            <img src="logo.png" alt="Rustiqe Logo" class="h-20 md:h-32 mx-auto m
+b-4 object-contain drop-shadow-lg">
+            <h1 class="text-5xl md:text-7xl font-serif font-bold text-rustiqe-li
+ght mb-6 tracking-wider uppercase">Rustiqe</h1>
+            <div class="w-24 h-1 bg-rustiqe-accent mx-auto mb-6"></div>
+            <p id="hero-text" class="text-lg md:text-xl text-rustiqe-light font-
+serif italic leading-relaxed">
+                DobrodoÅ¡li na mjesto gdje vrijeme malo uspori, a Äula oÅ¾ive.<b
+r class="hidden md:block">
+                NaÅ¡ meni je paÅ¾ljivo biran spoj klasike i karaktera, kreiran z
+a istinske ljubitelje dobre trpeze.<br>
+                &nbsp;
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 md:py-16 max-w-6xl">
+        
+        <div class="flex justify-center mb-12 gap-2 md:gap-4 flex-wrap">
+            <button onclick="switchTab('jelovnik')" id="tab-jelovnik" class="tab
+-btn active px-6 py-2 md:px-8 md:py-3 rounded-full border-2 border-rustiqe-dark 
+text-rustiqe-dark font-bold tracking-wide uppercase transition-all duration-300 
+hover:bg-rustiqe-dark hover:text-rustiqe-light focus:outline-none text-sm md:tex
+t-base">
+                Jelovnik
+            </button>
+            <button onclick="switchTab('pice')" id="tab-pice" class="tab-btn px-
+6 py-2 md:px-8 md:py-3 rounded-full border-2 border-rustiqe-dark text-rustiqe-da
+rk font-bold tracking-wide uppercase transition-all duration-300 hover:bg-rustiq
+e-dark hover:text-rustiqe-light focus:outline-none text-sm md:text-base">
+                Karta PiÄ‡a
+            </button>
+            <button onclick="switchTab('galerija')" id="tab-galerija" class="tab
+-btn px-6 py-2 md:px-8 md:py-3 rounded-full border-2 border-rustiqe-dark text-ru
+stiqe-dark font-bold tracking-wide uppercase transition-all duration-300 hover:b
+g-rustiqe-dark hover:text-rustiqe-light focus:outline-none text-sm md:text-base"
+>
+                Foto galerija
+            </button>
+        </div>
+
+        <div id="menu-container" class="fade-in">
+        </div>
+
+    </main>
+
+    <section class="container mx-auto px-4 pb-12 max-w-6xl">
+        <div class="text-center mb-8">
+            <h3 id="ig-title" class="font-serif text-2xl md:text-3xl text-rustiq
+e-dark font-bold mb-2">Pratite nas na Instagramu</h3>
+            <a href="https://www.instagram.com/restoranrustiqe/" target="_blank"
+ rel="noopener noreferrer" class="text-rustiqe hover:text-rustiqe-accent font-sa
+ns transition-colors text-lg tracking-wide">@restoranrustiqe</a>
+        </div>
+        
+        <!-- Elfsight Widget -->
+        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <div class="elfsight-app-a9264053-a868-468d-8655-cf4835ee67bd" data-elfs
+ight-app-lazy></div>
+    </section>
+
+    <footer class="bg-rustiqe-dark text-rustiqe-light py-10 mt-12 text-center">
+        <h2 class="font-serif text-3xl font-bold mb-4 tracking-widest">RUSTIQE</
+h2>
+        <p id="footer-subtitle" class="mb-2 text-rustiqe-accent font-sans">Spoj 
+klasike i karaktera.</p>
+        <div class="w-16 h-px bg-rustiqe-accent mx-auto my-6 opacity-50"></div>
+        
+        <div class="mb-8">
+            <p id="review-text" class="text-sm md:text-base text-rustiqe-light m
+b-3 italic">Ocijenite nas na Google</p>
+            <a href="https://g.page/r/CbchmxHMT7TbEBM/review" target="_blank" re
+l="noopener noreferrer" class="inline-block transition-transform hover:scale-105
+ hover:opacity-90">
+                <img src="review.png" alt="QR Code Google Review" class="w-24 h-
+24 mx-auto rounded shadow-lg border border-rustiqe-accent/50">
+            </a>
+        </div>
+
+        <p class="text-sm opacity-70 leading-relaxed">
+            &copy; 2026 Restoran Rustiqe. Nikole Tesle 23<br>
+            74000 Doboj, Republika Srpska, BiH
+        </p>
+        <p class="text-sm opacity-70 leading-relaxed mt-4">
+            Made with <a href="https://factorydirect.digital/" target="_blank" r
+el="noopener noreferrer" class="hover:text-rustiqe-accent transition-colors unde
+rline decoration-dotted underline-offset-4">Presence Factor</a>
+        </p>
+    </footer>
+
+    <script>
+        // State
+        let currentLang = 'lat';
+        let currentTab = 'jelovnik';
+
+                // Slike za galeriju (Ovdje upiÅ¡ite taÄne putanje do slika na v
+aÅ¡em serveru)
+        const galleryImages = [
+            "foto/novo1.png",
+            "foto/restoran1.jpg",
+            "foto/restoran2.jpg",
+            "foto/restoran3.jpg",
+            "foto/restoran4.jpg",
+            "foto/restoran5.jpg", 
+            "foto/restoran6.jpg",
+            "foto/restoran7.jpg",
+            "foto/restoran8.jpg",
+            "foto/restoran9.jpg",
+            "foto/restoran10.jpg",
+            "foto/restoran11.jpg",
+            "foto/restoran12.jpg"
+            // Dodajte preostale slike u ovom formatu...
+        ];
+        // Prevodi za statiÄni tekst
+        const staticI18n = {
+            lat: {
+                hero: "DobrodoÅ¡li na mjesto gdje vrijeme malo uspori, a Äula oÅ
+¾ive.<br class='hidden md:block'> NaÅ¡ meni je paÅ¾ljivo biran spoj klasike i ka
+raktera, kreiran za istinske ljubitelje dobre trpeze.<br>&nbsp;",
+                tab_jelovnik: "Jelovnik",
+                tab_pice: "Karta PiÄ‡a",
+                tab_galerija: "Foto galerija",
+                footer_sub: "Spoj klasike i karaktera.",
+                reservations: "Rezervacije putem telefona:",
+                review_text: "Ocijenite nas na Google",
+                ig_title: "Pratite nas na Instagramu"
+            },
+            cyr: {
+                hero: "Ð”Ð¾Ð±Ñ€Ð¾Ð´Ð¾ÑˆÐ»Ð¸ Ð½Ð° Ð¼Ñ˜ÐµÑÑ‚Ð¾ Ð³Ð´Ñ˜Ðµ Ð²Ñ€Ð¸Ñ˜Ðµ
+Ð¼Ðµ Ð¼Ð°Ð»Ð¾ ÑƒÑÐ¿Ð¾Ñ€Ð¸, Ð° Ñ‡ÑƒÐ»Ð° Ð¾Ð¶Ð¸Ð²Ðµ.<br class='hidden md:block'> Ð
+Ð¿Ð¾Ñ˜ ÐºÐ»Ð°ÑÐ¸ÐºÐµ Ð¸ ÐºÐ°Ñ€Ð°ÐºÑ‚ÐµÑ€Ð°, ÐºÑ€ÐµÐ¸Ñ€Ð°Ð½ Ð·Ð° Ð¸ÑÑ‚Ð¸Ð½ÑÐºÐµ Ñ
+™ÑƒÐ±Ð¸Ñ‚ÐµÑ™Ðµ Ð´Ð¾Ð±Ñ€Ðµ Ñ‚Ñ€Ð¿ÐµÐ·Ðµ.<br>&nbsp;",
+                tab_jelovnik: "ÐˆÐµÐ»Ð¾Ð²Ð½Ð¸Ðº",
+                tab_pice: "ÐšÐ°Ñ€Ñ‚Ð° ÐŸÐ¸Ñ›Ð°",
+                tab_galerija: "Ð¤Ð¾Ñ‚Ð¾ Ð³Ð°Ð»ÐµÑ€Ð¸Ñ˜Ð°",
+                footer_sub: "Ð¡Ð¿Ð¾Ñ˜ ÐºÐ»Ð°ÑÐ¸ÐºÐµ Ð¸ ÐºÐ°Ñ€Ð°ÐºÑ‚ÐµÑ€Ð°.",
+                reservations: "Ð ÐµÐ·ÐµÑ€Ð²Ð°Ñ†Ð¸Ñ˜Ðµ Ð¿ÑƒÑ‚ÐµÐ¼ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ð
+°:",
+                review_text: "ÐžÑ†Ð¸Ñ˜ÐµÐ½Ð¸Ñ‚Ðµ Ð½Ð°Ñ Ð½Ð° Google",
+                ig_title: "ÐŸÑ€Ð°Ñ‚Ð¸Ñ‚Ðµ Ð½Ð°Ñ Ð½Ð° Ð˜Ð½ÑÑ‚Ð°Ð³Ñ€Ð°Ð¼Ñƒ"
+            },
+            en: {
+                hero: "Welcome to a place where time slows down a bit, and the s
+enses come alive.<br class='hidden md:block'> Our menu is a carefully curated bl
+end of classics and character, created for true lovers of good food.<br>&nbsp;",
+                tab_jelovnik: "Menu",
+                tab_pice: "Drinks Menu",
+                tab_galerija: "Photo Gallery",
+                footer_sub: "A blend of classic and character.",
+                reservations: "Reservations by phone:",
+                review_text: "Review us on Google",
+                ig_title: "Follow us on Instagram"
+            }
+        };
+
+        // Podaci Menija po jezicima
+        const menusData = {
+            lat: {
+                jelovnik: [
+                    { category: "DoruÄak", items: [{ name: "PrÅ¾enice", descript
+ion: "(4 prÅ¾enice, 2 kugle kajmaka)", price: "5.00 KM" }, { name: "Rustiqe doru
+Äak", description: "(2 jaja, 3 uÅ¡tipka, prÅ¾enica, suhovina)", price: "9.50 KM"
+ }, { name: "Rustiqe uÅ¡tipci", description: "(10 uÅ¡tipaka, 2 kugle kajmaka)", 
+price: "7.50 KM" }, { name: "Omlet", description: "(Sir 2 KM, Å unka 2 KM, Vrgan
+ji 2.5 KM) / (3 jaja)", price: "6.00 KM" }] },
+                    { category: "Hladna Predjela", items: [{ name: "Plata sireva
+", price: "16.00 KM" }, { name: "Plata suhomesnatih proizvoda", price: "20.00 KM
+" }] },
+                    { category: "Topla Predjela", items: [{ name: "TeleÄ‡a ragu 
+Äorba", price: "9.00 KM" }, { name: "PotaÅ¾ od vrganja", price: "9.00 KM" }, { n
+ame: "Bistra supa", price: "6.00 KM" }] },
+                    { category: "Paste i RiÅ¾ota", items: [{ name: "Pasta Amatri
+ciana", description: "(150 g tjestenine, 70 g suhog obraza, paradajz sos)", pric
+e: "14.00 KM" }, { name: "Pasta Carbonara", description: "(150 g tjestenine, 70 
+g suhog obraza, krema od jaja)", price: "14.00 KM" }, { name: "Pasta Arabiata", 
+description: "(150 g tjestenine, paradajz sos, crveni luk, ljuta paprika)", pric
+e: "12.00 KM" }, { name: "RiÅ¾oto sa vrganjima", description: "(200g riÅ¾a, 100g
+ vrganji)", price: "15.00 KM" }, { name: "RiÅ¾oto sa povrÄ‡em", description: "(2
+00g riÅ¾a, 100g povrÄ‡e)", price: "12.00 KM" }, { name: "RiÅ¾oto sa piletinom", 
+description: "(200g riÅ¾a, 100g parÄe piletine)", price: "14.00 KM" }] },
+                    { category: "Specijaliteti", items: [{ name: "Porchetta", de
+scription: "(250 g rolovano carsko meso, pire, demiglas sos)", price: "22.00 KM"
+ }, { name: "JagnjeÄ‡i kotleti", description: "(250 g jagnjeÄ‡ih kotleta, rustik
+ sos, pire)", price: "35.00 KM" }] },
+                    { category: "Stejkovi", items: [{ name: "Ribeye 100g", price
+: "9.00 KM" }, { name: "T Bone 100g", price: "9.00 KM" }] },
+                    { category: "Jela sa RoÅ¡tilja", items: [{ name: "Rustiqe pl
+jeskavica", description: "(250 g mljevenog juneÄ‡eg mesa, somun, pekarski krompi
+r)", price: "14.50 KM" }, { name: "Ä†evapi veliki", description: "(10 Ä‡evapa, s
+omun)", price: "11.00 KM" }, { name: "RoÅ¡tiljska kobasica", description: "(250 
+g kobasice, pekarski krompir, somun)", price: "15.00 KM" }, { name: "TeleÄ‡a dÅ¾
+igerica", description: "(250 g dÅ¾igerice, pekarski krompir)", price: "18.00 KM"
+ }, { name: "OtkoÅ¡teni pileÄ‡i batak", description: "(250 g otkoÅ¡tenog bataka,
+ pekarski krompir, somun)", price: "12.00 KM" }, { name: "Svinjska peka", descri
+ption: "(Svinjska peka 250 g, prilog)", price: "13.00 KM" }] },
+                    { category: "Jela po NarudÅ¾bi", items: [{ name: "Svinjski f
+ile u rustik sosu", description: "(250 g svinjskog filea, pire, rustik sos)", pr
+ice: "16.50 KM" }, { name: "PileÄ‡i file u sosu", description: "(250 g piletine,
+ pire, rustik sos)", price: "14.50 KM" }, { name: "JuneÄ‡a rebra u sosu", descri
+ption: "(250 g juneÄ‡ih rebara, pire, sos)", price: "19.00 KM" }, { name: "PileÄ
+‡i Å¡tapiÄ‡i", description: "(200 g piletine, pomfrit)", price: "13.00 KM" }, { 
+name: "Oso Buco", price: "18.00 KM" }, { name: "Wok piletina", price: "15.00 KM"
+ }] },
+                    { category: "Ribe", items: [{ name: "Kalifornijska pastrmka"
+, description: "(250 g filea pastrmke, krompir salata, marinada)", price: "19.00
+ KM" }, { name: "Å aran", price: "17.00 KM" }] },
+                    { category: "Salate", items: [{ name: "Rustiqe salata (Obrok
+ salata)", description: "(125 g mozzarela, mix salate)", price: "13.00 KM" }, { 
+name: "SvjeÅ¾i kupus", description: "(200 g kupusa)", price: "4.00 KM" }, { name
+: "Å opska", description: "(200 g mix povrÄ‡a, suhi sir)", price: "5.50 KM" }, {
+ name: "Zelena salata", description: "(200 g zelene salate)", price: "4.00 KM" }
+, { name: "PeÄena paprika", description: "(200 g peÄene paprike, marinada)", pri
+ce: "6.00 KM" }, { name: "Sezonska salata", description: "(Salata sezone)", pric
+e: "6.00 KM" }] },
+                    { category: "Prilozi", items: [{ name: "Restovani krompir", 
+price: "4.00 KM" }, { name: "DomaÄ‡i pekarski krompir", price: "4.00 KM" }, { na
+me: "Pire", price: "4.00 KM" }, { name: "Grilovano povrÄ‡e", price: "5.00 KM" },
+ { name: "Vrganji", price: "7.50 KM" }, { name: "Pomfrit", price: "5.00 KM" }, {
+ name: "Kajmak", price: "2.50 KM" }, { name: "Majoneza", price: "1.50 KM" }, { n
+ame: "KeÄap", price: "1.00 KM" }] },
+                    { category: "Sosovi", items: [{ name: "Ä†imiÄ‡uri", price: "
+3.00 KM" }, { name: "Rustiqe sos", price: "3.00 KM" }, { name: "Ljutenica", pric
+e: "3.00 KM" }, { name: "Tartar", price: "3.00 KM" }] },
+                    { category: "Dezerti", items: [{ name: "PalaÄinci Nutella", 
+description: "(2 palaÄinka)", price: "6.50 KM" }, { name: "PalaÄinci Marmelada",
+ description: "(2 palaÄinka)", price: "5.00 KM" }, { name: "KolaÄ kuÄ‡e", price:
+ "5.00 KM" }] }
+                ],
+                pica: [
+                    { category: "Topli Napici", items: [{ name: "Espresso", pric
+e: "2.50 KM" }, { name: "Topla Äokolada", price: "3.00 KM" }, { name: "Nes", pri
+ce: "2.50 KM" }, { name: "KapuÄ‡ino", price: "3.00 KM" }, { name: "KapuÄ‡ino apa
+rat", price: "3.00 KM" }, { name: "Latte Macchiato", price: "3.00 KM" }, { name:
+ "ÄŒaj", price: "2.50 KM" }] },
+                    { category: "Vode", items: [{ name: "Rosa", price: "2.50 KM"
+ }, { name: "Vivia 0.7", price: "5.00 KM" }, { name: "Kisela voda 0.25", price: 
+"2.50 KM" }, { name: "Kisela voda 1L", price: "5.00 KM" }] },
+                    { category: "Gazirani Sokovi", items: [{ name: "Coca Cola / 
+Zero", price: "3.00 KM" }, { name: "Fanta", price: "3.00 KM" }, { name: "Bitter 
+Lemon / Tonik", price: "3.00 KM" }, { name: "TandÅ¾arina", price: "3.00 KM" }, {
+ name: "Exotic KruÅ¡ka / Limeta", price: "2.50 KM" }, { name: "Orangina", price:
+ "3.50 KM" }] },
+                    { category: "Prirodni Sokovi", items: [{ name: "Cedevita Nar
+andÅ¾a / Limun", price: "3.00 KM" }, { name: "Vitaminka (Jagoda, Jabuka, Borovni
+ca, Breskva)", price: "3.00 KM" }, { name: "Hidra", price: "3.00 KM" }] },
+                    { category: "CijeÄ‘eni Sokovi", items: [{ name: "Limunada", 
+price: "3.50 KM" }, { name: "CijeÄ‘ena narandÅ¾a", price: "5.00 KM" }, { name: "
+CijeÄ‘eni mix", price: "5.00 KM" }] },
+                    { category: "Å½estoka Alkoholna PiÄ‡a", items: [{ name: "Gor
+ki list / Vlahov / Pelinkovac", price: "2.50 KM" }, { name: "Stock / Jeger", pri
+ce: "3.00 KM" }] },
+                    { category: "Whiskey, Cognac & Gin", items: [{ name: "Jack D
+aniels", price: "3.50 KM" }, { name: "Jameson", price: "4.00 KM" }, { name: "Chi
+vas", price: "6.00 KM" }, { name: "Courvoisier", price: "7.00 KM" }, { name: "Be
+efeater Gin", price: "4.00 KM" }] },
+                    { category: "Rakije (Korijen)", items: [{ name: "Å ljiva / Å
+ ljiva Barique", price: "3.00 KM" }, { name: "KruÅ¡ka / KruÅ¡ka Barique", price:
+ "3.00 KM" }, { name: "Kajsija / Kajsija Barique", price: "3.00 KM" }, { name: "
+Dunja / Dunja Barique", price: "3.00 KM" }, { name: "Jabuka / Jabuka Barique", p
+rice: "3.00 KM" }] },
+                    { category: "Pivo", items: [{ name: "Jelen / Becks / Staropr
+amen", price: "3.00 KM" }, { name: "Stella Artois / Bavaria / Aspal", price: "3.
+50 KM" }, { name: "Stella toÄena 0.33", price: "3.50 KM" }, { name: "NikÅ¡iÄ‡ko 
+tamno", price: "4.00 KM" }] }
+                ]
+            },
+            cyr: {
+                jelovnik: [
+                    { category: "Ð”Ð¾Ñ€ÑƒÑ‡Ð°Ðº", items: [{ name: "ÐŸÑ€Ð¶ÐµÐ½Ð¸Ñ
+†Ðµ", description: "(4 Ð¿Ñ€Ð¶ÐµÐ½Ð¸Ñ†Ðµ, 2 ÐºÑƒÐ³Ð»Ðµ ÐºÐ°Ñ˜Ð¼Ð°ÐºÐ°)", price: "
+5.00 KM" }, { name: "Rustiqe Ð´Ð¾Ñ€ÑƒÑ‡Ð°Ðº", description: "(2 Ñ˜Ð°Ñ˜Ð°, 3 ÑƒÑˆÑ
+‚Ð¸Ð¿ÐºÐ°, Ð¿Ñ€Ð¶ÐµÐ½Ð¸Ñ†Ð°, ÑÑƒÑ…Ð¾Ð²Ð¸Ð½Ð°)", price: "9.50 KM" }, { name: "Rus
+tiqe ÑƒÑˆÑ‚Ð¸Ð¿Ñ†Ð¸", description: "(10 ÑƒÑˆÑ‚Ð¸Ð¿Ð°ÐºÐ°, 2 ÐºÑƒÐ³Ð»Ðµ ÐºÐ°Ñ˜Ð¼Ð
+°ÐºÐ°)", price: "7.50 KM" }, { name: "ÐžÐ¼Ð»ÐµÑ‚", description: "(Ð¡Ð¸Ñ€ 2 ÐšÐœ,
+ Ð¨ÑƒÐ½ÐºÐ° 2 ÐšÐœ, Ð’Ñ€Ð³Ð°ÑšÐ¸ 2.5 ÐšÐœ) / (3 Ñ˜Ð°Ñ˜Ð°)", price: "6.00 KM" }] 
+},
+                    { category: "Ð¥Ð»Ð°Ð´Ð½Ð° ÐŸÑ€ÐµÐ´Ñ˜ÐµÐ»Ð°", items: [{ name:
+ "ÐŸÐ»Ð°Ñ‚Ð° ÑÐ¸Ñ€ÐµÐ²Ð°", price: "16.00 KM" }, { name: "ÐŸÐ»Ð°Ñ‚Ð° ÑÑƒÑ…Ð¾Ð¼ÐµÑ
+Ð½Ð°Ñ‚Ð¸Ñ… Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð°", price: "20.00 KM" }] },
+                    { category: "Ð¢Ð¾Ð¿Ð»Ð° ÐŸÑ€ÐµÐ´Ñ˜ÐµÐ»Ð°", items: [{ name: "
+Ð¢ÐµÐ»ÐµÑ›Ð° Ñ€Ð°Ð³Ñƒ Ñ‡Ð¾Ñ€Ð±Ð°", price: "9.00 KM" }, { name: "ÐŸÐ¾Ñ‚Ð°Ð¶ Ð¾Ð´ 
+Ð²Ñ€Ð³Ð°ÑšÐ°", price: "9.00 KM" }, { name: "Ð‘Ð¸ÑÑ‚Ñ€Ð° ÑÑƒÐ¿Ð°", price: "6.00 K
+M" }] },
+                    { category: "ÐŸÐ°ÑÑ‚Ðµ Ð¸ Ð Ð¸Ð¶Ð¾Ñ‚Ð°", items: [{ name: "ÐŸ
+Ð°ÑÑ‚Ð° Amatriciana", description: "(150 Ð³ Ñ‚Ñ˜ÐµÑÑ‚ÐµÐ½Ð¸Ð½Ðµ, 70 Ð³ ÑÑƒÐ²Ð¾Ð³
+ Ð¾Ð±Ñ€Ð°Ð·Ð°, Ð¿Ð°Ñ€Ð°Ð´Ð°Ñ˜Ð· ÑÐ¾Ñ)", price: "14.00 KM" }, { name: "ÐŸÐ°ÑÑ‚Ð° 
+Carbonara", description: "(150 Ð³ Ñ‚Ñ˜ÐµÑÑ‚ÐµÐ½Ð¸Ð½Ðµ, 70 Ð³ ÑÑƒÐ²Ð¾Ð³ Ð¾Ð±Ñ€Ð°Ð
+·Ð°, ÐºÑ€ÐµÐ¼Ð° Ð¾Ð´ Ñ˜Ð°Ñ˜Ð°)", price: "14.00 KM" }, { name: "ÐŸÐ°ÑÑ‚Ð° Arabiat
+a", description: "(150 Ð³ Ñ‚Ñ˜ÐµÑÑ‚ÐµÐ½Ð¸Ð½Ðµ, Ð¿Ð°Ñ€Ð°Ð´Ð°Ñ˜Ð· ÑÐ¾Ñ, Ñ†Ñ€Ð²ÐµÐ½
+Ð¸ Ð»ÑƒÐº, Ñ™ÑƒÑ‚Ð° Ð¿Ð°Ð¿Ñ€Ð¸ÐºÐ°)", price: "12.00 KM" }, { name: "Ð Ð¸Ð¶Ð¾Ñ‚Ð¾
+ ÑÐ° Ð²Ñ€Ð³Ð°ÑšÐ¸Ð¼Ð°", description: "(200Ð³ Ñ€Ð¸Ð¶Ð°, 100Ð³ Ð²Ñ€Ð³Ð°ÑšÐ¸)", pri
+ce: "15.00 KM" }, { name: "Ð Ð¸Ð¶Ð¾Ñ‚Ð¾ ÑÐ° Ð¿Ð¾Ð²Ñ€Ñ›ÐµÐ¼", description: "(200Ð
+³ Ñ€Ð¸Ð¶Ð°, 100Ð³ Ð¿Ð¾Ð²Ñ€Ñ›Ðµ)", price: "12.00 KM" }, { name: "Ð Ð¸Ð¶Ð¾Ñ‚Ð¾ ÑÐ°
+ Ð¿Ð¸Ð»ÐµÑ‚Ð¸Ð½Ð¾Ð¼", description: "(200Ð³ Ñ€Ð¸Ð¶Ð°, 100Ð³ Ð¿Ð°Ñ€Ñ‡Ðµ Ð¿Ð¸Ð»ÐµÑ‚
+Ð¸Ð½Ðµ)", price: "14.00 KM" }] },
+                    { category: "Ð¡Ð¿ÐµÑ†Ð¸Ñ˜Ð°Ð»Ð¸Ñ‚ÐµÑ‚Ð¸", items: [{ name: "P
+orchetta", description: "(250 Ð³ Ñ€Ð¾Ð»Ð¾Ð²Ð°Ð½Ð¾ Ñ†Ð°Ñ€ÑÐºÐ¾ Ð¼ÐµÑÐ¾, Ð¿Ð¸Ñ€Ðµ,
+ Ð´ÐµÐ¼Ð¸Ð³Ð»Ð°Ñ ÑÐ¾Ñ)", price: "22.00 KM" }, { name: "ÐˆÐ°Ð³ÑšÐµÑ›Ð¸ ÐºÐ¾Ñ‚Ð»Ðµ
+Ñ‚Ð¸", description: "(250 Ð³ Ñ˜Ð°Ð³ÑšÐµÑ›Ð¸Ñ… ÐºÐ¾Ñ‚Ð»ÐµÑ‚Ð°, Ñ€ÑƒÑÑ‚Ð¸Ðº ÑÐ¾Ñ, 
+Ð¿Ð¸Ñ€Ðµ)", price: "35.00 KM" }] },
+                    { category: "Ð¡Ñ‚ÐµÑ˜ÐºÐ¾Ð²Ð¸", items: [{ name: "Ribeye 100g
+", price: "9.00 KM" }, { name: "T Bone 100g", price: "9.00 KM" }] },
+                    { category: "ÐˆÐµÐ»Ð° ÑÐ° Ð Ð¾ÑˆÑ‚Ð¸Ñ™Ð°", items: [{ name: "
+Rustiqe Ð¿Ñ™ÐµÑÐºÐ°Ð²Ð¸Ñ†Ð°", description: "(250 Ð³ Ð¼Ñ™ÐµÐ²ÐµÐ½Ð¾Ð³ Ñ˜ÑƒÐ½ÐµÑ›Ð
+µÐ³ Ð¼ÐµÑÐ°, ÑÐ¾Ð¼ÑƒÐ½, Ð¿ÐµÐºÐ°Ñ€ÑÐºÐ¸ ÐºÑ€Ð¾Ð¼Ð¿Ð¸Ñ€)", price: "14.50 KM" }, {
+ name: "Ð‹ÐµÐ²Ð°Ð¿Ð¸ Ð²ÐµÐ»Ð¸ÐºÐ¸", description: "(10 Ñ›ÐµÐ²Ð°Ð¿Ð°, ÑÐ¾Ð¼ÑƒÐ½)",
+ price: "11.00 KM" }, { name: "Ð Ð¾ÑˆÑ‚Ð¸Ñ™ÑÐºÐ° ÐºÐ¾Ð±Ð°ÑÐ¸Ñ†Ð°", description: 
+"(250 Ð³ ÐºÐ¾Ð±Ð°ÑÐ¸Ñ†Ðµ, Ð¿ÐµÐºÐ°Ñ€ÑÐºÐ¸ ÐºÑ€Ð¾Ð¼Ð¿Ð¸Ñ€, ÑÐ¾Ð¼ÑƒÐ½)", price: "1
+5.00 KM" }, { name: "Ð¢ÐµÐ»ÐµÑ›Ð° ÑŸÐ¸Ð³ÐµÑ€Ð¸Ñ†Ð°", description: "(250 Ð³ ÑŸÐ¸Ð
+³ÐµÑ€Ð¸Ñ†Ðµ, Ð¿ÐµÐºÐ°Ñ€ÑÐºÐ¸ ÐºÑ€Ð¾Ð¼Ð¿Ð¸Ñ€)", price: "18.00 KM" }, { name: "ÐžÑ
+‚ÐºÐ¾ÑˆÑ‚ÐµÐ½Ð¸ Ð¿Ð¸Ð»ÐµÑ›Ð¸ Ð±Ð°Ñ‚Ð°Ðº", description: "(250 Ð³ Ð¾Ñ‚ÐºÐ¾ÑˆÑ‚ÐµÐ½
+Ð¾Ð³ Ð±Ð°Ñ‚Ð°ÐºÐ°, Ð¿ÐµÐºÐ°Ñ€ÑÐºÐ¸ ÐºÑ€Ð¾Ð¼Ð¿Ð¸Ñ€, ÑÐ¾Ð¼ÑƒÐ½)", price: "12.00 KM
+" }, { name: "Ð¡Ð²Ð¸ÑšÑÐºÐ° Ð¿ÐµÐºÐ°", description: "(Ð¡Ð²Ð¸ÑšÑÐºÐ° Ð¿ÐµÐºÐ° 250
+ Ð³, Ð¿Ñ€Ð¸Ð»Ð¾Ð³)", price: "13.00 KM" }] },
+                    { category: "ÐˆÐµÐ»Ð° Ð¿Ð¾ ÐÐºÐ¸ Ñ„Ð¸Ð»Ðµ Ñƒ Ñ€ÑƒÑÑ‚Ð¸Ðº ÑÐ¾
+ÑÑƒ", description: "(250 Ð³ ÑÐ²Ð¸ÑšÑÐºÐ¾Ð³ Ñ„Ð¸Ð»ÐµÐ°, Ð¿Ð¸Ñ€Ðµ, Ñ€ÑƒÑÑ‚Ð¸Ðº ÑÐ¾
+Ñ)", price: "16.50 KM" }, { name: "ÐŸÐ¸Ð»ÐµÑ›Ð¸ Ñ„Ð¸Ð»Ðµ Ñƒ ÑÐ¾ÑÑƒ", description
+: "(250 Ð³ Ð¿Ð¸Ð»ÐµÑ‚Ð¸Ð½Ðµ, Ð¿Ð¸Ñ€Ðµ, Ñ€ÑƒÑÑ‚Ð¸Ðº ÑÐ¾Ñ)", price: "14.50 KM" }, 
+{ name: "ÐˆÑƒÐ½ÐµÑ›Ð° Ñ€ÐµÐ±Ñ€Ð° Ñƒ ÑÐ¾ÑÑƒ", description: "(250 Ð³ Ñ˜ÑƒÐ½ÐµÑ›Ð¸Ñ
+… Ñ€ÐµÐ±Ð°Ñ€Ð°, Ð¿Ð¸Ñ€Ðµ, ÑÐ¾Ñ)", price: "19.00 KM" }, { name: "ÐŸÐ¸Ð»ÐµÑ›Ð¸ ÑˆÑ
+‚Ð°Ð¿Ð¸Ñ›Ð¸", description: "(200 Ð³ Ð¿Ð¸Ð»ÐµÑ‚Ð¸Ð½Ðµ, Ð¿Ð¾Ð¼Ñ„Ñ€Ð¸Ñ‚)", price: "
+13.00 KM" }, { name: "ÐžÑÐ¾ Ð‘ÑƒÐºÐ¾", price: "18.00 KM" }, { name: "Ð’Ð¾Ðº Ð¿Ð¸
+Ð»ÐµÑ‚Ð¸Ð½Ð°", price: "15.00 KM" }] },

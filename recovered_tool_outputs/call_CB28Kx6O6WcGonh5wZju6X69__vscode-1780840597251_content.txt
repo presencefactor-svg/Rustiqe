@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rustiqe | Restoran & Meni</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,w
+ght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="styl
+esheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rustiqe: {
+                            light: '#f9f6f0',
+                            DEFAULT: '#8b5a2b',
+                            dark: '#3e2723',
+                            accent: '#d4a373'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f9f6f0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='
+60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fi
+ll-rule='evenodd'%3E%3Cg fill='%238b5a2b' fill-opacity='0.05'%3E%3Cpath d='M36 3
+4v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v
+2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+;
+        }
+        
+        .menu-item-dots {
+            flex-grow: 1;
+            border-bottom: 2px dotted #ccc;
+            margin: 0 10px;
+            position: relative;
+            top: -6px;
+            opacity: 0.6;
+        }
+
+        .tab-btn.active {
+            background-color: #3e2723;
+            color: #f9f6f0;
+            border-color: #3e2723;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .image-placeholder {
+            background-color: #eaddcf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8b5a2b;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            border: 1px solid #d4a373;
+        }
+
+        /* Agresivno sakrivanje Elfsight watermark-a */
+        .eapps-link, 
+        div[class^="elfsight-app"] > a,
+        a[href*="elfsight.com"] {
+            display: none !important;
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+            position: absolute !important;
+            top: -9999px !important;
+            left: -9999px !important;
+            z-index: -9999 !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+    </style>
+</head>
+<body class="font-sans text-rustiqe-dark antialiased">
+
+    <header class="relative min-h-[26rem] md:h-96 flex items-center justify-cent
+er overflow-hidden py-12 md:py-0">
+        <div class="absolute inset-0 bg-rustiqe-dark opacity-80 z-10"></div>
+        <div class="absolute inset-0 w-full h-full object-cover z-0 image-placeh
+older text-2xl"></div>
+        
+        <div class="absolute top-4 right-4 md:top-6 md:right-6 z-30 bg-[#3e2723]
+/80 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full flex items-center 
+gap-2 md:gap-3 border border-[#d4a373]/30 shadow-lg">
+            <button id="lang-lat" onclick="setLanguage('lat')" class="lang-btn f
+ont-bold text-white transition-all text-xs md:text-sm tracking-wider">LAT</butto
+n>
+            <span class="text-[#d4a373] opacity-50 text-[10px] md:text-xs">|</sp
+an>
+            <button id="lang-cyr" onclick="setLanguage('cyr')" class="lang-btn f
+ont-bold text-[#d4a373] hover:text-white transition-all text-xs md:text-sm track
+ing-wider">Ð‹Ð˜Ð </button>
+            <span class="text-[#d4a373] opacity-50 text-[10px] md:text-xs">|</sp
+an>
+            <button id="lang-en" onclick="setLanguage('en')" class="lang-btn fon
+t-bold text-[#d4a373] hover:text-white transition-all text-xs md:text-sm trackin
+g-wider">EN</button>
+        </div>
+        
+        <div class="relative z-20 text-center px-4 max-w-3xl mx-auto mt-12 md:mt
+-0">
+            <img src="logo.png" alt="Rustiqe Logo" class="h-20 md:h-32 mx-auto m
+b-4 object-contain drop-shadow-lg">
+            <h1 class="text-5xl md:text-7xl font-serif font-bold text-rustiqe-li
+ght mb-6 tracking-wider uppercase">Rustiqe</h1>
+            <div class="w-24 h-1 bg-rustiqe-accent mx-auto mb-6"></div>
+            <p id="hero-text" class="text-lg md:text-xl text-rustiqe-light font-
+serif italic leading-relaxed">
+                DobrodoÅ¡li na mjesto gdje vrijeme malo uspori, a Äula oÅ¾ive.<b
+r class="hidden md:block">
+                NaÅ¡ meni je paÅ¾ljivo biran spoj klasike i karaktera, kreiran z
+a istinske ljubitelje dobre trpeze.<br>
+                &nbsp;
+            </p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 md:py-16 max-w-6xl">
+        
+        <div class="flex justify-center mb-12 gap-2 md:gap-4 flex-wrap">
+            <button onclick="switchTab('jelovnik')" id="tab-jelovnik" class="tab
+-btn active px-6 py-2 md:px-8 md:py-3 rounded-full border-2 border-rustiqe-dark 
+text-rustiqe-dark font-bold tracking-wide uppercase transition-all duration-300 
+hover:bg-rustiqe-dark hover:text-rustiqe-light focus:outline-none text-sm md:tex
+t-base">
+                Jelovnik
+            </button>
+            <button onclick="switchTab('pice')" id="tab-pice" class="tab-btn px-
+6 py-2 md:px-8 md:py-3 rounded-full border-2 border-rustiqe-dark text-rustiqe-da
+rk font-bold tracking-wide uppercase transition-all duration-300 hover:bg-rustiq
+e-dark hover:text-rustiqe-light focus:outline-none text-sm md:text-base">
+                Karta PiÄ‡a
+            </button>
+            <button onclick="switchTab('galerija')" id="tab-galerija" class="tab
+-btn px-6 py-2 md:px-8 md:py-3 rounded-full border-2 border-rustiqe-dark text-ru
+stiqe-dark font-bold tracking-wide uppercase transition-all duration-300 hover:b
+g-rustiqe-dark hover:text-rustiqe-light focus:outline-none text-sm md:text-base"
+>
+                Foto galerija
+            </button>
+        </div>
+
+        <div id="menu-container" class="fade-in">
+        </div>
+
+    </main>
+
+    <section class="container mx-auto px-4 pb-12 max-w-6xl">
+        <div class="text-center mb-8">
+            <h3 id="ig-title" class="font-serif text-2xl md:text-3xl text-rustiq
+e-dark font-bold mb-2">Pratite nas na Instagramu</h3>
+            <a href="https://www.instagram.com/restoranrustiqe/" target="_blank"
+ rel="noopener noreferrer" class="text-rustiqe hover:text-rustiqe-accent font-sa
+ns transition-colors text-lg tracking-wide">@restoranrustiqe</a>
+        </div>
+        
+        <!-- Elfsight Widget -->
+        <script src="https://elfsightcdn.com/platform.js" async></script>
+        <div class="elfsight-app-a9264053-a868-468d-8655-cf4835ee67bd" data-elfs
+ight-app-lazy></div>
+    </section>
+
+    <footer class="bg-rustiqe-dark text-rustiqe-light py-10 mt-12 text-center">
+        <h2 class="font-serif text-3xl font-bold mb-4 tracking-widest">RUSTIQE</
+h2>
+        <p id="footer-subtitle" class="mb-2 text-rustiqe-accent font-sans">Spoj 
+klasike i karaktera.</p>
+        <div class="w-16 h-px bg-rustiqe-accent mx-auto my-6 opacity-50"></div>
+        
+        <div class="mb-8">
+            <p id="review-text" class="text-sm md:text-base text-rustiqe-light m
+b-3 italic">Ocijenite nas na Google</p>
+            <a href="https://g.page/r/CbchmxHMT7TbEBM/review" target="_blank" re
+l="noopener noreferrer" class="inline-block transition-transform hover:scale-105
+ hover:opacity-90">
+                <img src="review.png" alt="QR Code Google Review" class="w-24 h-
+24 mx-auto rounded shadow-lg border border-rustiqe-accent/50">
+            </a>
+        </div>
+
+        <p class="text-sm opacity-70 leading-relaxed">
+            &copy; 2026 Restoran Rustiqe. Nikole Tesle 23<br>
+            74000 Doboj, Republika Srpska, BiH
+        </p>
+        <p class="text-sm opacity-70 leading-relaxed mt-4">
+            Made with <a href="https://factorydirect.digital/" target="_blank" r
+el="noopener noreferrer" class="hover:text-rustiqe-accent transition-colors unde
+rline decoration-dotted underline-offset-4">Presence Factor</a>
+        </p>
+    </footer>
+
+    <script>
+        // State
+        let currentLang = 'lat';
+        let currentTab = 'jelovnik';
+
+                // Slike za galeriju (Ovdje upiÅ¡ite taÄne putanje do slika na v
+aÅ¡em serveru)
+        const galleryImages = [
+            "foto/novo1.png",
+            "foto/restoran1.jpg",
+            "foto/restoran2.jpg",
+            "foto/restoran3.jpg",
+            "foto/restoran4.jpg",
+            "foto/restoran5.jpg", 
+            "foto/restoran6.jpg",
+            "foto/restoran7.jpg",
+            "foto/restoran8.jpg",
+            "foto/restoran9.jpg",
+            "foto/restoran10.jpg",
+            "foto/restoran11.jpg",
+            "foto/restoran12.jpg"
+            // Dodajte preostale slike u ovom formatu...
+        ];
+        // Prevodi za statiÄni tekst
+        const staticI18n = {
+            lat: {
+                hero: "DobrodoÅ¡li na mjesto gdje vrijeme malo uspori, a Äula oÅ
+¾ive.<br class='hidden md:block'> NaÅ¡ meni je paÅ¾ljivo biran spoj klasike i ka
+raktera, kreiran za istinske ljubitelje dobre trpeze.<br>&nbsp;",
+                tab_jelovnik: "Jelovnik",
+                tab_pice: "Karta PiÄ‡a",
+                tab_galerija: "Foto galerija",
+                footer_sub: "Spoj klasike i karaktera.",
+                reservations: "Rezervacije putem telefona:",
+                review_text: "Ocijenite nas na Google",
+                ig_title: "Pratite nas na Instagramu"
+            },
+            cyr: {
+                hero: "Ð”Ð¾Ð±Ñ€Ð¾Ð´Ð¾ÑˆÐ»Ð¸ Ð½Ð° Ð¼Ñ˜ÐµÑÑ‚Ð¾ Ð³Ð´Ñ˜Ðµ Ð²Ñ€Ð¸Ñ˜Ðµ
+Ð¼Ðµ Ð¼Ð°Ð»Ð¾ ÑƒÑÐ¿Ð¾Ñ€Ð¸, Ð° Ñ‡ÑƒÐ»Ð° Ð¾Ð¶Ð¸Ð²Ðµ.<br class='hidden md:block'> Ð
+Ð¿Ð¾Ñ˜ ÐºÐ»Ð°ÑÐ¸ÐºÐµ Ð¸ ÐºÐ°Ñ€Ð°ÐºÑ‚ÐµÑ€Ð°, ÐºÑ€ÐµÐ¸Ñ€Ð°Ð½ Ð·Ð° Ð¸ÑÑ‚Ð¸Ð½ÑÐºÐµ Ñ
+™ÑƒÐ±Ð¸Ñ‚ÐµÑ™Ðµ Ð´Ð¾Ð±Ñ€Ðµ Ñ‚Ñ€Ð¿ÐµÐ·Ðµ.<br>&nbsp;",
+                tab_jelovnik: "ÐˆÐµÐ»Ð¾Ð²Ð½Ð¸Ðº",
+                tab_pice: "ÐšÐ°Ñ€Ñ‚Ð° ÐŸÐ¸Ñ›Ð°",
+                tab_galerija: "Ð¤Ð¾Ñ‚Ð¾ Ð³Ð°Ð»ÐµÑ€Ð¸Ñ˜Ð°",
+                footer_sub: "Ð¡Ð¿Ð¾Ñ˜ ÐºÐ»Ð°ÑÐ¸ÐºÐµ Ð¸ ÐºÐ°Ñ€Ð°ÐºÑ‚ÐµÑ€Ð°.",
+                reservations: "Ð ÐµÐ·ÐµÑ€Ð²Ð°Ñ†Ð¸Ñ˜Ðµ Ð¿ÑƒÑ‚ÐµÐ¼ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ð
+°:",
+                review_text: "ÐžÑ†Ð¸Ñ˜ÐµÐ½Ð¸Ñ‚Ðµ Ð½Ð°Ñ Ð½Ð° Google",
+                ig_title: "ÐŸÑ€Ð°Ñ‚Ð¸Ñ‚Ðµ Ð½Ð°Ñ Ð½Ð° Ð˜Ð½ÑÑ‚Ð°Ð³Ñ€Ð°Ð¼Ñƒ"
+            },
+            en: {
+                hero: "Welcome to a place where time slows down a bit, and the s
+enses come alive.<br class='hidden md:block'> Our menu is a carefully curated bl
+end of classics and character, created for true lovers of good food.<br>&nbsp;",
+                tab_jelovnik: "Menu",
+                tab_pice: "Drinks Menu",
+                tab_galerija: "Photo Gallery",
+                footer_sub: "A blend of classic and character.",
+                reservations: "Reservations by phone:",
+                review_text: "Review us on Google",
+                ig_title: "Follow us on Instagram"
+            }
+        };
