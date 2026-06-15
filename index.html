@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rustiqe | Restoran & Meni</title>
-    <link rel="icon" type="image/png" href="logo.png">
+    <title>Rustiqe | Restoran & Meni | Premium</title>
+    <meta name="description" content="Rustiqe - Visokokvalitetni restoran u Doboju sa vrhunskim jelima i pićima. Rezervišite svoj stol danas.">
+    <link rel="icon" type="image/png" href="images/logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -15,151 +18,849 @@
                         rustiqe: {
                             light: '#f9f6f0',
                             DEFAULT: '#8b5a2b',
-                            dark: '#3e2723',
-                            accent: '#d4a373'
+                            dark: '#1a0f0a',
+                            accent: '#d4a373',
+                            warm: '#f5ebe0',
+                            cream: '#fdf6f0',
+                            gold: '#c9a86c'
                         }
                     },
                     fontFamily: {
-                        serif: ['"Playfair Display"', 'serif'],
-                        sans: ['Lato', 'sans-serif'],
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'elegant': '0 20px 60px rgba(0,0,0,0.15)',
+                        'subtle': '0 4px 20px rgba(139,90,43,0.08)',
                     }
                 }
             }
         }
     </script>
     <style>
-        body {
-            background-color: #f9f6f0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%238b5a2b' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
-        .menu-item-dots {
-            flex-grow: 1;
-            border-bottom: 2px dotted #ccc;
-            margin: 0 10px;
+        body {
+            background-color: #f9f6f0;
+            color: #1a0f0a;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f9f6f0;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8b5a2b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3e2723;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
             position: relative;
-            top: -6px;
-            opacity: 0.6;
-        }
-
-        .tab-btn.active {
-            background-color: #3e2723;
-            color: #f9f6f0;
-            border-color: #3e2723;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .image-placeholder {
-            background-color: #eaddcf;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #8b5a2b;
-            font-family: 'Playfair Display', serif;
-            font-style: italic;
-            border: 1px solid #d4a373;
+            overflow: hidden;
         }
 
-        /* Agresivno sakrivanje Elfsight watermark-a */
-        .eapps-link, 
-        div[class^="elfsight-app"] > a,
-        a[href*="elfsight.com"] {
-            display: none !important;
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
-            position: absolute !important;
-            top: -9999px !important;
-            left: -9999px !important;
-            z-index: -9999 !important;
-            width: 0 !important;
-            height: 0 !important;
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('https://v3b.fal.media/files/b/0a9d4378/0dgmdCe_u-1095EcLQcNf_5MbpFuzR.png') center/cover no-repeat;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(26, 15, 10, 0.7) 0%,
+                rgba(26, 15, 10, 0.85) 50%,
+                rgba(26, 15, 10, 0.95) 100%
+            );
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-logo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(212, 163, 115, 0.6);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            margin-bottom: 2rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 12vw, 9rem);
+            font-weight: 700;
+            color: #f9f6f0;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            background: linear-gradient(135deg, #f9f6f0 0%, #d4a373 50%, #f9f6f0 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-style: italic;
+            color: #d4a373;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+        }
+
+        .hero-divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4a373, transparent);
+            margin: 2rem auto;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(26, 15, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 163, 115, 0.3);
+            border-radius: 50px;
+            padding: 6px;
+            display: flex;
+            gap: 4px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .lang-btn {
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent;
+            color: #d4a373;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, #8b5a2b, #d4a373);
+            color: #f9f6f0;
+            box-shadow: 0 4px 15px rgba(139, 90, 43, 0.4);
+        }
+
+        .lang-btn:hover:not(.active) {
+            color: #f9f6f0;
+            text-shadow: 0 0 20px rgba(212, 163, 115, 0.5);
+        }
+
+        /* Menu Tabs */
+        .menu-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 4rem 0 3rem;
+            flex-wrap: wrap;
+            padding: 0 1rem;
+        }
+
+        .tab-btn {
+            position: relative;
+            padding: 14px 32px;
+            border: 2px solid rgba(62, 39, 35, 0.3);
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            color: #3e2723;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #3e2723, #5d3a1f);
+            opacity: 0;
+            transition: opacity 0.4s;
+            z-index: -1;
+        }
+
+        .tab-btn.active {
+            color: #f9f6f0;
+            border-color: #3e2723;
+            box-shadow: 0 10px 30px rgba(62, 39, 35, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active::before {
+            opacity: 1;
+        }
+
+        .tab-btn:hover:not(.active) {
+            border-color: #8b5a2b;
+            color: #8b5a2b;
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 90, 43, 0.15);
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2.5rem;
+            padding: 0 1rem;
+            max-width: 1400px;
+            margin: 0 auto 6rem;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+            border: 1px solid rgba(212, 163, 115, 0.15);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .menu-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.12);
+        }
+
+        .menu-card-header {
+            background: linear-gradient(135deg, #3e2723 0%, #5d3a1f 100%);
+            color: #f9f6f0;
+            padding: 1.5rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-card-header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(212, 163, 115, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .menu-card-header h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-card-body {
+            padding: 1.5rem 2rem 2rem;
+        }
+
+        .menu-item {
+            padding: 1rem 0;
+            border-bottom: 1px dashed rgba(139, 90, 43, 0.2);
+            transition: all 0.3s;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-item:hover {
+            padding-left: 8px;
+            background: rgba(212, 163, 115, 0.05);
+            margin: 0 -1rem;
+            padding-left: calc(1rem + 8px);
+            padding-right: 1rem;
+            border-radius: 8px;
+        }
+
+        .menu-item-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .menu-item-name {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: #1a0f0a;
+        }
+
+        .menu-item-dots {
+            flex: 1;
+            border-bottom: 1.5px dotted rgba(139, 90, 43, 0.4);
+            min-width: 20px;
+        }
+
+        .menu-item-price {
+            font-weight: 700;
+            color: #8b5a2b;
+            font-size: 1.05rem;
+            white-space: nowrap;
+        }
+
+        .menu-item-desc {
+            font-size: 0.9rem;
+            color: #6b6054;
+            font-style: italic;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        /* Reservation Box */
+        .reservation-box {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 3rem;
+            background: linear-gradient(135deg, #3e2723 0%, #5d3a1f 100%);
+            color: #f9f6f0;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 25px 60px rgba(62, 39, 35, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reservation-box::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212, 163, 115, 0.2) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .reservation-box h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .reservation-phone {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #d4a373;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-block;
+            position: relative;
+        }
+
+        .reservation-phone::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #d4a373;
+            transition: width 0.4s;
+        }
+
+        .reservation-phone:hover::after {
+            width: 100%;
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(180deg, #1a0f0a 0%, #0d0704 100%);
+            color: #c4b5a5;
+            padding: 6rem 2rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 163, 115, 0.5), transparent);
+        }
+
+        .footer-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: #f9f6f0;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .footer-tagline {
+            text-align: center;
+            color: #d4a373;
+            font-style: italic;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-divider {
+            width: 60px;
+            height: 1px;
+            background: rgba(212, 163, 115, 0.5);
+            margin: 2rem auto;
+        }
+
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .qr-code {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border: 2px solid rgba(212, 163, 115, 0.4);
+            border-radius: 12px;
+            padding: 8px;
+            background: white;
+            transition: transform 0.3s;
+        }
+
+        .qr-code:hover {
+            transform: scale(1.1) rotate(3deg);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            font-size: 0.85rem;
+            opacity: 0.6;
+            line-height: 1.8;
+        }
+
+        /* Scroll Animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .scroll-animate.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .language-switcher {
+                top: 10px;
+                right: 10px;
+                padding: 4px;
+            }
+
+            .lang-btn {
+                padding: 8px 14px;
+                font-size: 0.75rem;
+            }
+
+            .hero-logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .menu-card-body {
+                padding: 1.25rem 1.5rem 1.5rem;
+            }
+
+            .menu-card-header {
+                padding: 1.25rem 1.5rem;
+            }
+        }
+
+        /* Loading Screen */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: #1a0f0a;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1.5rem;
+            transition: opacity 0.5s, visibility 0.5s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .loader-text {
+            color: #d4a373;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            letter-spacing: 0.3em;
+        }
+
+        /* Gallery */
+        .gallery-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 163, 115, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            aspect-ratio: 9 / 16;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        .gallery-item img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(26, 15, 10, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 80vh;
+            border-radius: 16px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+
+        .lightbox button {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 999px;
+        }
+
+        /* Section backgrounds */
+        .section-warm {
+            background: linear-gradient(180deg, #f9f6f0, #f5ebe0);
+            padding: 6rem 0;
+        }
+
+        .section-dark {
+            background: linear-gradient(180deg, #1a0f0a, #3e2723);
+            padding: 6rem 0;
+            color: #f9f6f0;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 30px;
+            padding: 4rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            border: 1px solid rgba(212, 163, 115, 0.2);
+        }
+
+        .decorative-line {
+            display: block;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #8b5a2b, #d4a373);
+            margin: 1rem auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #8b5a2b, #d4a373);
+            color: #f9f6f0;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.4s;
+            box-shadow: 0 10px 30px rgba(139, 90, 43, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 90, 43, 0.5);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .section-card {
+                padding: 2rem 1.5rem;
+                border-radius: 20px;
+            }
+            .reservation-box {
+                padding: 2rem 1.5rem;
+            }
         }
     </style>
 </head>
-<body class="font-sans text-rustiqe-dark antialiased">
+<body>
 
-    <header class="relative min-h-[26rem] md:h-96 flex items-center justify-center overflow-hidden py-12 md:py-0">
-        <div class="absolute inset-0 bg-rustiqe-dark opacity-80 z-10"></div>
-        <div class="absolute inset-0 w-full h-full object-cover z-0 image-placeholder text-2xl"></div>
-        
-        <div class="absolute top-4 right-4 md:top-6 md:right-6 z-30 bg-[#3e2723]/80 backdrop-blur-md px-3 py-1.5 md:px-4 md:py-2 rounded-full flex items-center gap-2 md:gap-3 border border-[#d4a373]/30 shadow-lg">
-            <button id="lang-lat" onclick="setLanguage('lat')" class="lang-btn font-bold text-white transition-all text-xs md:text-sm tracking-wider">LAT</button>
-            <span class="text-[#d4a373] opacity-50 text-[10px] md:text-xs">|</span>
-            <button id="lang-cyr" onclick="setLanguage('cyr')" class="lang-btn font-bold text-[#d4a373] hover:text-white transition-all text-xs md:text-sm tracking-wider">ЋИР</button>
-            <span class="text-[#d4a373] opacity-50 text-[10px] md:text-xs">|</span>
-            <button id="lang-en" onclick="setLanguage('en')" class="lang-btn font-bold text-[#d4a373] hover:text-white transition-all text-xs md:text-sm tracking-wider">EN</button>
-        </div>
-        
-        <div class="relative z-20 text-center px-4 max-w-3xl mx-auto mt-12 md:mt-0">
-            <img src="logo.png" alt="Rustiqe Logo" class="h-20 md:h-32 mx-auto mb-4 object-contain drop-shadow-lg">
-            <h1 class="text-5xl md:text-7xl font-serif font-bold text-rustiqe-light mb-6 tracking-wider uppercase">Rustiqe</h1>
-            <div class="w-24 h-1 bg-rustiqe-accent mx-auto mb-6"></div>
-            <p id="hero-text" class="text-lg md:text-xl text-rustiqe-light font-serif italic leading-relaxed">
-                Dobrodošli na mjesto gdje vrijeme malo uspori, a čula ožive.<br class="hidden md:block">
-                Naš meni je pažljivo biran spoj klasike i karaktera, kreiran za istinske ljubitelje dobre trpeze.<br>
-                &nbsp;
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <img src="images/logo.png" alt="Loading" class="loader-logo">
+        <div class="loader-text">RUSTIQE</div>
+    </div>
+
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button onclick="setLanguage('lat')" class="lang-btn active" data-lang="lat">LAT</button>
+        <button onclick="setLanguage('cyr')" class="lang-btn" data-lang="cyr">ЋИР</button>
+        <button onclick="setLanguage('en')" class="lang-btn" data-lang="en">EN</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <img src="images/logo.png" alt="Rustiqe Logo" class="hero-logo">
+            <h1 class="hero-title">Rustiqe</h1>
+            <div class="hero-divider"></div>
+            <p id="hero-text" class="hero-subtitle">
+                Dobrodošli na mjesto gdje vrijeme malo uspori, a čula ožive.
             </p>
         </div>
-    </header>
-
-    <main class="container mx-auto px-4 py-12 md:py-16 max-w-6xl">
-        
-        <div class="flex justify-center mb-12 gap-2 md:gap-4 flex-wrap">
-            <button onclick="switchTab('jelovnik')" id="tab-jelovnik" class="tab-btn active px-6 py-2 md:px-8 md:py-3 rounded-full border-2 border-rustiqe-dark text-rustiqe-dark font-bold tracking-wide uppercase transition-all duration-300 hover:bg-rustiqe-dark hover:text-rustiqe-light focus:outline-none text-sm md:text-base">
-                Jelovnik
-            </button>
-            <button onclick="switchTab('pice')" id="tab-pice" class="tab-btn px-6 py-2 md:px-8 md:py-3 rounded-full border-2 border-rustiqe-dark text-rustiqe-dark font-bold tracking-wide uppercase transition-all duration-300 hover:bg-rustiqe-dark hover:text-rustiqe-light focus:outline-none text-sm md:text-base">
-                Karta Pića
-            </button>
-            <button onclick="switchTab('galerija')" id="tab-galerija" class="tab-btn px-6 py-2 md:px-8 md:py-3 rounded-full border-2 border-rustiqe-dark text-rustiqe-dark font-bold tracking-wide uppercase transition-all duration-300 hover:bg-rustiqe-dark hover:text-rustiqe-light focus:outline-none text-sm md:text-base">
-                Foto galerija
-            </button>
-        </div>
-
-        <div id="menu-container" class="fade-in">
-        </div>
-
-    </main>
-
-    <section class="container mx-auto px-4 pb-12 max-w-6xl">
-        <div class="text-center mb-8">
-            <h3 id="ig-title" class="font-serif text-2xl md:text-3xl text-rustiqe-dark font-bold mb-2">Pratite nas na Instagramu</h3>
-            <a href="https://www.instagram.com/restoranrustiqe/" target="_blank" rel="noopener noreferrer" class="text-rustiqe hover:text-rustiqe-accent font-sans transition-colors text-lg tracking-wide">@restoranrustiqe</a>
-        </div>
-        
-        <!-- Elfsight Widget -->
-        <script src="https://elfsightcdn.com/platform.js" async></script>
-        <div class="elfsight-app-a9264053-a868-468d-8655-cf4835ee67bd" data-elfsight-app-lazy></div>
     </section>
 
-    <footer class="bg-rustiqe-dark text-rustiqe-light py-10 mt-12 text-center">
-        <h2 class="font-serif text-3xl font-bold mb-4 tracking-widest">RUSTIQE</h2>
-        <p id="footer-subtitle" class="mb-2 text-rustiqe-accent font-sans">Spoj klasike i karaktera.</p>
-        <div class="w-16 h-px bg-rustiqe-accent mx-auto my-6 opacity-50"></div>
-        
-        <div class="mb-8">
-            <p id="review-text" class="text-sm md:text-base text-rustiqe-light mb-3 italic">Ocijenite nas na Google</p>
-            <a href="https://g.page/r/CbchmxHMT7TbEBM/review" target="_blank" rel="noopener noreferrer" class="inline-block transition-transform hover:scale-105 hover:opacity-90">
-                <img src="review.png" alt="QR Code Google Review" class="w-24 h-24 mx-auto rounded shadow-lg border border-rustiqe-accent/50">
+    <!-- About Section -->
+    <section class="section-warm scroll-animate" id="about">
+        <div class="container mx-auto px-4 max-w-5xl text-center">
+            <div class="section-card">
+                <h2 class="font-serif text-4xl md:text-5xl font-bold text-rustiqe-dark mb-6">O nama</h2>
+                <span class="decorative-line"></span>
+                <p id="about-text" class="font-serif text-xl md:text-2xl text-gray-700 leading-relaxed italic">
+                    "Spoj klasike i karaktera — gdje svaki obrok postane priča, a svaki trenutak ostane u sjećanju."
+                </p>
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                    <div class="p-4">
+                        <div class="text-4xl mb-2">🍷</div>
+                        <h4 class="font-bold text-rustiqe-dark mb-1">Pozorište ukusa</h4>
+                        <p class="text-sm text-gray-600">Pažljivo birani sastojci i autentični recepti</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="text-4xl mb-2">🕯️</div>
+                        <h4 class="font-bold text-rustiqe-dark mb-1">Atmosfera</h4>
+                        <p class="text-sm text-gray-600">Rustični šarm i toplina ambijenta</p>
+                    </div>
+                    <div class="p-4">
+                        <div class="text-4xl mb-2">🥂</div>
+                        <h4 class="font-bold text-rustiqe-dark mb-1">Uživanje</h4>
+                        <p class="text-sm text-gray-600">Doživljaj koji ostaje u sećanju</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="py-20 bg-gradient-to-b from-rustiqe-light to-rustiqe-warm" id="menu">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="text-center mb-16 scroll-animate">
+                <h2 class="font-serif text-5xl md:text-6xl font-bold text-rustiqe-dark mb-4">Naš Meni</h2>
+                <div class="decorative-line"></div>
+                <p class="text-gray-600 mt-4 text-lg">Istražite pažljivo sastavljenu ponudu</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="menu-tabs">
+                <button onclick="switchTab('jelovnik')" id="tab-jelovnik" class="tab-btn active">Jelovnik</button>
+                <button onclick="switchTab('pice')" id="tab-pice" class="tab-btn">Karta Pića</button>
+                <button onclick="switchTab('galerija')" id="tab-galerija" class="tab-btn">Foto galerija</button>
+            </div>
+
+            <!-- Menu Container -->
+            <div id="menu-container">
+                <!-- Dynamic content -->
+            </div>
+
+            <!-- Reservation -->
+            <div id="reservation-box" class="reservation-box scroll-animate">
+            <h3 id="reservation-title">Rezervacije</h3>
+            <p id="reservation-phones">
+            <a href="tel:+38766707237" class="reservation-phone">+387 66 707 237</a>
+            <span class="mx-4 opacity-50">|</span>
+            <a href="tel:+38766624343" class="reservation-phone">+387 66 624 343</a>
+            </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery & Instagram Section -->
+    <section class="py-16 bg-gradient-to-b from-rustiqe-warm to-rustiqe-light" id="gallery-section">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="text-center mb-10 scroll-animate">
+                <div class="decorative-line"></div>
+            </div>
+
+            <div id="gallery-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <!-- Dynamic gallery items inserted by JS -->
+            </div>
+
+            <!-- Instagram Feed Widget -->
+            <div class="mt-8">
+                <!-- Elfsight Instagram Feed -->
+                <script src="https://elfsightcdn.com/platform.js" async></script>
+                <div class="elfsight-app-a9264053-a868-468d-8655-cf4835ee67bd" data-elfsight-app-lazy></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="scroll-animate">
+        <div class="footer-brand">RUSTIQE</div>
+        <p id="footer-tagline" class="footer-tagline">Spoj klasike i karaktera.</p>
+        <div class="footer-divider"></div>
+
+        <div class="qr-section">
+            <p id="review-label" class="text-sm tracking-wider uppercase mb-3">Ocijenite nas na Google</p>
+            <a href="https://g.page/r/CbchmxHMT7TbEBM/review" target="_blank" rel="noopener noreferrer">
+                <img src="images/review.png" alt="QR Code Google Review" class="qr-code">
             </a>
         </div>
 
-        <p class="text-sm opacity-70 leading-relaxed">
-            &copy; 2026 Restoran Rustiqe. Nikole Tesle 23<br>
-            74000 Doboj, Republika Srpska, BiH
-        </p>
-        <p class="text-sm opacity-70 leading-relaxed mt-4">
-            Made with <a href="https://factorydirect.digital/" target="_blank" rel="noopener noreferrer" class="hover:text-rustiqe-accent transition-colors underline decoration-dotted underline-offset-4">Presence Factor</a>
-        </p>
+        <div class="footer-bottom mt-12">
+            <p>&copy; 2026 Restoran Rustiqe. Nikole Tesle 23</p>
+            <p>74000 Doboj, Republika Srpska, BiH</p>
+            <p class="mt-4">Made with ❤️ by <a href="https://factorydirect.digital/" target="_blank" rel="noopener noreferrer" class="hover:text-[#d4a373] transition-colors underline decoration-dotted underline-offset-4">Presence Factor</a></p>
+        </div>
     </footer>
 
     <script>
@@ -167,58 +868,116 @@
         let currentLang = 'lat';
         let currentTab = 'jelovnik';
 
-                // Slike za galeriju (Ovdje upišite tačne putanje do slika na vašem serveru)
+        // Gallery data and renderer
         const galleryImages = [
-            "foto/novo1.png",
-            "foto/restoran1.jpg",
-            "foto/restoran2.jpg",
-            "foto/restoran3.jpg",
-            "foto/restoran4.jpg",
-            "foto/restoran5.jpg", 
-            "foto/restoran6.jpg",
-            "foto/restoran7.jpg",
-            "foto/restoran8.jpg",
-            "foto/restoran9.jpg",
-            "foto/restoran10.jpg",
-            "foto/restoran11.jpg",
-            "foto/restoran12.jpg"
-            // Dodajte preostale slike u ovom formatu...
+            'foto/novo1.png',
+            'foto/restoran1.jpg',
+            'foto/restoran2.jpg',
+            'foto/restoran3.jpg',
+            'foto/restoran4.jpg',
+            'foto/restoran5.jpg',
+            'foto/restoran6.jpg',
+            'foto/restoran7.jpg',
+            'foto/restoran8.jpg',
+            'foto/restoran9.jpg',
+            'foto/restoran10.jpg',
+            'foto/restoran11.jpg',
+            'foto/restoran12.jpg'
         ];
-        // Prevodi za statični tekst
+
+        function renderGallery() {
+            const container = document.getElementById('menu-container');
+            if (!container) return;
+
+            // Trigger re-render animation
+            container.classList.remove('fade-in');
+            void container.offsetWidth;
+            container.classList.add('fade-in');
+
+            const html = `
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    ${galleryImages
+            .map(
+                (src) => `
+                        <div class="gallery-item" onclick="openLightbox('${src}')">
+                            <img src="${src}" alt="Galerija" loading="lazy" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22260%22 height=%22260%22><rect width=%22260%22 height=%22260%22 fill=%22%23f5ebe0%22/><text x=%22130%22 y=%22135%22 text-anchor=%22middle%22 fill=%22%238b5a2b%22 font-size=%2214%22>Slika</text></svg>';" />
+                        </div>
+                    `
+            )
+            .join('')}
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        function openLightbox(src) {
+            const lb = document.createElement('div');
+            lb.className = 'lightbox';
+            lb.innerHTML = `
+                <img src="${src}" alt="Pregled">
+                <button onclick="this.parentElement.remove()">×</button>
+            `;
+            lb.addEventListener('click', (e) => {
+                if (e.target === lb) lb.remove();
+            });
+            document.body.appendChild(lb);
+        }
+
+        // Updated switchTab for 3 tabs
+        function switchTab(tab) {
+            currentTab = tab;
+
+            ['jelovnik', 'pice', 'galerija'].forEach((id) => {
+                const el = document.getElementById(`tab-${id}`);
+                if (el) el.classList.toggle('active', id === tab);
+            });
+
+            if (tab === 'jelovnik') {
+                renderMenu(menusData[currentLang].jelovnik);
+            } else if (tab === 'pice') {
+                renderMenu(menusData[currentLang].pica);
+            } else if (tab === 'galerija') {
+                renderGallery();
+            }
+        }
         const staticI18n = {
             lat: {
-                hero: "Dobrodošli na mjesto gdje vrijeme malo uspori, a čula ožive.<br class='hidden md:block'> Naš meni je pažljivo biran spoj klasike i karaktera, kreiran za istinske ljubitelje dobre trpeze.<br>&nbsp;",
+                hero: "Dobrodošli na mjesto gdje vrijeme malo uspori, a čula ožive. Naš meni je pažljivo biran spoj klasike i karaktera.",
                 tab_jelovnik: "Jelovnik",
                 tab_pice: "Karta Pića",
                 tab_galerija: "Foto galerija",
                 footer_sub: "Spoj klasike i karaktera.",
                 reservations: "Rezervacije putem telefona:",
                 review_text: "Ocijenite nas na Google",
-                ig_title: "Pratite nas na Instagramu"
+                about_title: "O nama",
+                about_sub: '"Spoj klasike i karaktera — gdje svaki obrok postane priča, a svaki trenutak ostane u sjećanju."'
             },
             cyr: {
-                hero: "Добродошли на мјесто гдје вријеме мало успори, а чула оживе.<br class='hidden md:block'> Наш мени је пажљиво биран спој класике и карактера, креиран за истинске љубитеље добре трпезе.<br>&nbsp;",
+                hero: "Добродошли на мјесто гдје вријеме мало успори, а чула оживе. Наш мени је пажљиво биран спој класике и карактера.",
                 tab_jelovnik: "Јеловник",
                 tab_pice: "Карта Пића",
                 tab_galerija: "Фото галерија",
                 footer_sub: "Спој класике и карактера.",
                 reservations: "Резервације путем телефона:",
                 review_text: "Оцијените нас на Google",
-                ig_title: "Пратите нас на Инстаграму"
+                about_title: "О нама",
+                about_sub: '"Спој класике и карактера — гдје сваки обrok постане прича, а сваки тренутак остаје у сјећању."'
             },
             en: {
-                hero: "Welcome to a place where time slows down a bit, and the senses come alive.<br class='hidden md:block'> Our menu is a carefully curated blend of classics and character, created for true lovers of good food.<br>&nbsp;",
+                hero: "Welcome to a place where time slows down, and senses come alive. Our menu is a carefully curated blend of classics and character.",
                 tab_jelovnik: "Menu",
                 tab_pice: "Drinks Menu",
                 tab_galerija: "Photo Gallery",
                 footer_sub: "A blend of classic and character.",
                 reservations: "Reservations by phone:",
                 review_text: "Review us on Google",
-                ig_title: "Follow us on Instagram"
+                about_title: "About Us",
+                about_sub: '"A blend of classic and character — where every meal becomes a story, and every moment stays in memory."'
             }
         };
 
-        // Podaci Menija po jezicima
+        // Menu Data (from rustiqe-radno - full multilingual)
         const menusData = {
             lat: {
                 jelovnik: [
@@ -229,12 +988,12 @@
                     { category: "Specijaliteti", items: [{ name: "Porchetta", description: "(250 g rolovano carsko meso, pire, demiglas sos)", price: "22.00 KM" }, { name: "Jagnjeći kotleti", description: "(250 g jagnjećih kotleta, rustik sos, pire)", price: "35.00 KM" }] },
                     { category: "Stejkovi", items: [{ name: "Ribeye 100g", price: "9.00 KM" }, { name: "T Bone 100g", price: "9.00 KM" }] },
                     { category: "Jela sa Roštilja", items: [{ name: "Rustiqe pljeskavica", description: "(250 g mljevenog junećeg mesa, somun, pekarski krompir)", price: "14.50 KM" }, { name: "Ćevapi veliki", description: "(10 ćevapa, somun)", price: "11.00 KM" }, { name: "Roštiljska kobasica", description: "(250 g kobasice, pekarski krompir, somun)", price: "15.00 KM" }, { name: "Teleća džigerica", description: "(250 g džigerice, pekarski krompir)", price: "18.00 KM" }, { name: "Otkošteni pileći batak", description: "(250 g otkoštenog bataka, pekarski krompir, somun)", price: "12.00 KM" }, { name: "Svinjska peka", description: "(Svinjska peka 250 g, prilog)", price: "13.00 KM" }] },
-                    { category: "Jela po Narudžbi", items: [{ name: "Svinjski file u rustik sosu", description: "(250 g svinjskog filea, pire, rustik sos)", price: "16.50 KM" }, { name: "Pileći file u sosu", description: "(250 g piletine, pire, rustik sos)", price: "14.50 KM" }, { name: "Juneća rebra u sosu", description: "(250 g junećih rebara, pire, sos)", price: "19.00 KM" }, { name: "Pileći štapići", description: "(200 g piletine, pomfrit)", price: "13.00 KM" }, { name: "Oso Buco", price: "18.00 KM" }, { name: "Wok piletina", price: "15.00 KM" }] },
+                    { category: "Jela po Narudžbi", items: [{ name: "Svinjski file u rustik sosu", description: "(250 g svinjskog filea, pire, rustik sos)", price: "16.50 KM" }, { name: "Pileći file u sosu", description: "(250 g piletine, pire, rustik sos)", price: "14.50 KM" }, { name: "Juneća rebra u sosu", description: "(250 g junećih rebara, pire, sos)", price: "19.00 KM" }, { name: "Pileći štapići", description: "(200 g piletine, pomfrit)", price: "13.00 KM" }, { name: "Osso Buco", price: "18.00 KM" }, { name: "Wok piletina", price: "15.00 KM" }] },
                     { category: "Ribe", items: [{ name: "Kalifornijska pastrmka", description: "(250 g filea pastrmke, krompir salata, marinada)", price: "19.00 KM" }, { name: "Šaran", price: "17.00 KM" }] },
                     { category: "Salate", items: [{ name: "Rustiqe salata (Obrok salata)", description: "(125 g mozzarela, mix salate)", price: "13.00 KM" }, { name: "Svježi kupus", description: "(200 g kupusa)", price: "4.00 KM" }, { name: "Šopska", description: "(200 g mix povrća, suhi sir)", price: "5.50 KM" }, { name: "Zelena salata", description: "(200 g zelene salate)", price: "4.00 KM" }, { name: "Pečena paprika", description: "(200 g pečene paprike, marinada)", price: "6.00 KM" }, { name: "Sezonska salata", description: "(Salata sezone)", price: "6.00 KM" }] },
                     { category: "Prilozi", items: [{ name: "Restovani krompir", price: "4.00 KM" }, { name: "Domaći pekarski krompir", price: "4.00 KM" }, { name: "Pire", price: "4.00 KM" }, { name: "Grilovano povrće", price: "5.00 KM" }, { name: "Vrganji", price: "7.50 KM" }, { name: "Pomfrit", price: "5.00 KM" }, { name: "Kajmak", price: "2.50 KM" }, { name: "Majoneza", price: "1.50 KM" }, { name: "Kečap", price: "1.00 KM" }] },
-                    { category: "Sosovi", items: [{ name: "Ćimićuri", price: "3.00 KM" }, { name: "Rustiqe sos", price: "3.00 KM" }, { name: "Ljutenica", price: "3.00 KM" }, { name: "Tartar", price: "3.00 KM" }] },
-                    { category: "Dezerti", items: [{ name: "Palačinci Nutella", description: "(2 palačinka)", price: "6.50 KM" }, { name: "Palačinci Marmelada", description: "(2 palačinka)", price: "5.00 KM" }, { name: "Kolač kuće", price: "5.00 KM" }] }
+                    { category: "Sosovi", items: [{ name: "Čimčuri", price: "3.00 KM" }, { name: "Rustiqe sos", price: "3.00 KM" }, { name: "Ljutenica", price: "3.00 KM" }, { name: "Tartar", price: "3.00 KM" }] },
+                    { category: "Deserti", items: [{ name: "Palačinci Nutella", description: "(2 palačinka)", price: "6.50 KM" }, { name: "Palačinci Marmelada", description: "(2 palačinka)", price: "5.50 KM" }, { name: "Kolač kuće", price: "5.00 KM" }] }
                 ],
                 pica: [
                     { category: "Topli Napici", items: [{ name: "Espresso", price: "2.50 KM" }, { name: "Topla čokolada", price: "3.00 KM" }, { name: "Nes", price: "2.50 KM" }, { name: "Kapućino", price: "3.00 KM" }, { name: "Kapućino aparat", price: "3.00 KM" }, { name: "Latte Macchiato", price: "3.00 KM" }, { name: "Čaj", price: "2.50 KM" }] },
@@ -250,30 +1009,30 @@
             },
             cyr: {
                 jelovnik: [
-                    { category: "Доручак", items: [{ name: "Прженице", description: "(4 прженице, 2 кугле кајмака)", price: "5.00 KM" }, { name: "Rustiqe доручак", description: "(2 јаја, 3 уштипка, прженица, суховина)", price: "9.50 KM" }, { name: "Rustiqe уштипци", description: "(10 уштипака, 2 кугле кајмака)", price: "7.50 KM" }, { name: "Омлет", description: "(Сир 2 КМ, Шунка 2 КМ, Вргањи 2.5 КМ) / (3 јаја)", price: "6.00 KM" }] },
-                    { category: "Хладна Предјела", items: [{ name: "Плата сирева", price: "16.00 KM" }, { name: "Плата сухомеснатих производа", price: "20.00 KM" }] },
-                    { category: "Топла Предјела", items: [{ name: "Телећа рагу чорба", price: "9.00 KM" }, { name: "Потаж од вргања", price: "9.00 KM" }, { name: "Бистра супа", price: "6.00 KM" }] },
-                    { category: "Пасте и Рижота", items: [{ name: "Паста Amatriciana", description: "(150 г тјестенине, 70 г сувог образа, парадајз сос)", price: "14.00 KM" }, { name: "Паста Carbonara", description: "(150 г тјестенине, 70 г сувог образа, крема од јаја)", price: "14.00 KM" }, { name: "Паста Arabiata", description: "(150 г тјестенине, парадајз сос, црвени лук, љута паприка)", price: "12.00 KM" }, { name: "Рижото са вргањима", description: "(200г рижа, 100г вргањи)", price: "15.00 KM" }, { name: "Рижото са поврћем", description: "(200г рижа, 100г поврће)", price: "12.00 KM" }, { name: "Рижото са пилетином", description: "(200г рижа, 100г парче пилетине)", price: "14.00 KM" }] },
-                    { category: "Специјалитети", items: [{ name: "Porchetta", description: "(250 г роловано царско месо, пире, демиглас сос)", price: "22.00 KM" }, { name: "Јагњећи котлети", description: "(250 г јагњећих котлета, рустик сос, пире)", price: "35.00 KM" }] },
-                    { category: "Стејкови", items: [{ name: "Ribeye 100g", price: "9.00 KM" }, { name: "T Bone 100g", price: "9.00 KM" }] },
-                    { category: "Јела са Роштиља", items: [{ name: "Rustiqe пљескавица", description: "(250 г мљевеног јунећег меса, сомун, пекарски кромпир)", price: "14.50 KM" }, { name: "Ћевапи велики", description: "(10 ћевапа, сомун)", price: "11.00 KM" }, { name: "Роштиљска кобасица", description: "(250 г кобасице, пекарски кромпир, сомун)", price: "15.00 KM" }, { name: "Телећа џигерица", description: "(250 г џигерице, пекарски кромпир)", price: "18.00 KM" }, { name: "Откоштени пилећи батак", description: "(250 г откоштеног батака, пекарски кромпир, сомун)", price: "12.00 KM" }, { name: "Свињска пека", description: "(Свињска пека 250 г, прилог)", price: "13.00 KM" }] },
-                    { category: "Јела по Наруџби", items: [{ name: "Свињски филе у рустик сосу", description: "(250 г свињског филеа, пире, рустик сос)", price: "16.50 KM" }, { name: "Пилећи филе у сосу", description: "(250 г пилетине, пире, рустик сос)", price: "14.50 KM" }, { name: "Јунећа ребра у сосу", description: "(250 г јунећих ребара, пире, сос)", price: "19.00 KM" }, { name: "Пилећи штапићи", description: "(200 г пилетине, помфрит)", price: "13.00 KM" }, { name: "Осо Буко", price: "18.00 KM" }, { name: "Вок пилетина", price: "15.00 KM" }] },
-                    { category: "Рибе", items: [{ name: "Калифорнијска пастрмка", description: "(250 г филеа пастрмке, кромпир салата, маринада)", price: "19.00 KM" }, { name: "Шаран", price: "17.00 KM" }] },
-                    { category: "Салате", items: [{ name: "Rustiqe салата (Оброк салата)", description: "(125 г моцарела, микс салате)", price: "13.00 KM" }, { name: "Свјежи купус", description: "(200 г купуса)", price: "4.00 KM" }, { name: "Шопска", description: "(200 г микс поврћа, суви сир)", price: "5.50 KM" }, { name: "Зелена салата", description: "(200 г зелене салате)", price: "4.00 KM" }, { name: "Печена паприка", description: "(200 г печене паприке, маринада)", price: "6.00 KM" }, { name: "Сезонска салата", description: "(Салата сезоне)", price: "6.00 KM" }] },
-                    { category: "Прилози", items: [{ name: "Рестовани кромпир", price: "4.00 KM" }, { name: "Домаћи пекарски кромпир", price: "4.00 KM" }, { name: "Пире", price: "4.00 KM" }, { name: "Гриловано поврће", price: "5.00 KM" }, { name: "Вргањи", price: "7.50 KM" }, { name: "Помфрит", price: "5.00 KM" }, { name: "Кајмак", price: "2.50 KM" }, { name: "Мајонеза", price: "1.50 KM" }, { name: "Кечап", price: "1.00 KM" }] },
-                    { category: "Сосови", items: [{ name: "Ћимичури", price: "3.00 KM" }, { name: "Rustiqe сос", price: "3.00 KM" }, { name: "Љутеница", price: "3.00 KM" }, { name: "Тартар", price: "3.00 KM" }] },
-                    { category: "Десерти", items: [{ name: "Палачинци Нутела", description: "(2 палачинка)", price: "6.50 KM" }, { name: "Палачинци Мармелада", description: "(2 палачинка)", price: "5.00 KM" }, { name: "Колач куће", price: "5.00 KM" }] }
+                    { category: "Доручак", items: [{ name: "Прженице", description: "(4 прженице, 2 кугле кајмака)", price: "5.00 КМ" }, { name: "Rustiqe доручак", description: "(2 јаја, 3 уштипка, прженица, суховина)", price: "9.50 КМ" }, { name: "Rustiqe уштипци", description: "(10 уштипака, 2 кугле кајмака)", price: "7.50 КМ" }, { name: "Омлет", description: "(Сир 2 КМ, Шунка 2 КМ, Вргањи 2.5 КМ) / (3 јаја)", price: "6.00 КМ" }] },
+                    { category: "Хладна Предјела", items: [{ name: "Плата сирева", price: "16.00 КМ" }, { name: "Плата сухомеснатих производа", price: "20.00 КМ" }] },
+                    { category: "Топла Предјела", items: [{ name: "Телећа рагу чорба", price: "9.00 КМ" }, { name: "Потаж од вргања", price: "9.00 КМ" }, { name: "Бистра супа", price: "6.00 КМ" }] },
+                    { category: "Пасте и Рижоте", items: [{ name: "Паста Amatriciana", description: "(150 г тјестенине, 70 г сувог образа, парадајз сос)", price: "14.00 КМ" }, { name: "Паста Carbonara", description: "(150 г тјестенине, 70 г сувог образа, крема од јаја)", price: "14.00 КМ" }, { name: "Паста Arabiata", description: "(150 г тјестенине, парадајз сос, црвени лук, љута паприка)", price: "12.00 КМ" }, { name: "Рижото са вргањима", description: "(200г рижа, 100г вргањи)", price: "15.00 КМ" }, { name: "Рижото са поврћем", description: "(200г рижа, 100г поврће)", price: "12.00 КМ" }, { name: "Рижото са пилетином", description: "(200г рижа, 100г парче пилетине)", price: "14.00 КМ" }] },
+                    { category: "Специјалитети", items: [{ name: "Porchetta", description: "(250 г роловано царско месо, пире, демиглас сос)", price: "22.00 КМ" }, { name: "Јагњећи котлети", description: "(250 г јагњећих котлета, рустик сос, пире)", price: "35.00 КМ" }] },
+                    { category: "Стејкови", items: [{ name: "Ribeye 100g", price: "9.00 КМ" }, { name: "T Bone 100g", price: "9.00 КМ" }] },
+                    { category: "Јела са Роштиља", items: [{ name: "Rustiqe пљескавица", description: "(250 г мљевеног јунећег меса, сомун, пекарски кромпир)", price: "14.50 КМ" }, { name: "Ћевапи велики", description: "(10 ћевапа, сомун)", price: "11.00 КМ" }, { name: "Роштиљска кобасица", description: "(250 г кобасице, пекарски кромпир, сомун)", price: "15.00 КМ" }, { name: "Телећа џигерица", description: "(250 г џигерице, пекарски кромпир)", price: "18.00 КМ" }, { name: "Откоштени пилећи батак", description: "(250 г откоштеног батака, пекарски кромпир, сомун)", price: "12.00 КМ" }, { name: "Свињска пека", description: "(Свињска пека 250 г, прилог)", price: "13.00 КМ" }] },
+                    { category: "Јела по Наруџби", items: [{ name: "Свињски филе у рустик сосу", description: "(250 г свињског филеа, пире, рустик сос)", price: "16.50 КМ" }, { name: "Пилећи филе у сосу", description: "(250 г пилетине, пире, рустик сос)", price: "14.50 КМ" }, { name: "Јунећа ребра у сосу", description: "(250 г јунећих ребара, пире, сос)", price: "19.00 КМ" }, { name: "Пилећи штапићи", description: "(200 г пилетине, помфрит)", price: "13.00 КМ" }, { name: "Осо Буко", price: "18.00 КМ" }, { name: "Вок пилетина", price: "15.00 КМ" }] },
+                    { category: "Рибе", items: [{ name: "Калифорнијска пастрмка", description: "(250 г филеа пастрмке, кромпир салата, маринада)", price: "19.00 КМ" }, { name: "Шаран", price: "17.00 КМ" }] },
+                    { category: "Салате", items: [{ name: "Rustiqe салата (Оброк салата)", description: "(125 г моцарела, микс салате)", price: "13.00 КМ" }, { name: "Свјежи купус", description: "(200 г купуса)", price: "4.00 КМ" }, { name: "Шопска", description: "(200 г микс поврћа, суви сир)", price: "5.50 КМ" }, { name: "Зелена салата", description: "(200 г зелене салате)", price: "4.00 КМ" }, { name: "Печена паприка", description: "(200 г печене паприке, маринада)", price: "6.00 КМ" }, { name: "Сезонска салата", description: "(Салата сезоне)", price: "6.00 КМ" }] },
+                    { category: "Прилози", items: [{ name: "Рестовани кромпир", price: "4.00 КМ" }, { name: "Домаћи пекарски кромпир", price: "4.00 КМ" }, { name: "Пире", price: "4.00 КМ" }, { name: "Гриловано поврће", price: "5.00 КМ" }, { name: "Вргањи", price: "7.50 КМ" }, { name: "Помфрит", price: "5.00 КМ" }, { name: "Кајмак", price: "2.50 КМ" }, { name: "Мајонеза", price: "1.50 КМ" }, { name: "Кечап", price: "1.00 КМ" }] },
+                    { category: "Сосови", items: [{ name: "Ћимичури", price: "3.00 КМ" }, { name: "Rustiqe сос", price: "3.00 КМ" }, { name: "Љутеница", price: "3.00 КМ" }, { name: "Тартар", price: "3.00 КМ" }] },
+                    { category: "Дезерти", items: [{ name: "Палачинци Нутела", description: "(2 палачинка)", price: "6.50 КМ" }, { name: "Палачинци Мармелада", description: "(2 палачинка)", price: "5.00 КМ" }, { name: "Колач куће", price: "5.00 КМ" }] }
                 ],
                 pica: [
-                    { category: "Топли Напици", items: [{ name: "Espresso", price: "2.50 KM" }, { name: "Топла чоколада", price: "3.00 KM" }, { name: "Nes", price: "2.50 KM" }, { name: "Капућино", price: "3.00 KM" }, { name: "Капућино апарат", price: "3.00 KM" }, { name: "Latte Macchiato", price: "3.00 KM" }, { name: "Чај", price: "2.50 KM" }] },
-                    { category: "Воде", items: [{ name: "Rosa", price: "2.50 KM" }, { name: "Vivia 0.7", price: "5.00 KM" }, { name: "Кисела вода 0.25", price: "2.50 KM" }, { name: "Кисела вода 1L", price: "5.00 KM" }] },
-                    { category: "Газирани Сокови", items: [{ name: "Coca Cola / Zero", price: "3.00 KM" }, { name: "Fanta", price: "3.00 KM" }, { name: "Bitter Lemon / Tonik", price: "3.00 KM" }, { name: "Танџарина", price: "3.00 KM" }, { name: "Exotic Крушка / Лимета", price: "2.50 KM" }, { name: "Orangina", price: "3.50 KM" }] },
-                    { category: "Природни Сокови", items: [{ name: "Cedevita Наранџа / Лимун", price: "3.00 KM" }, { name: "Vitaminka (Јагода, Јабука, Боровница, Бресква)", price: "3.00 KM" }, { name: "Hidra", price: "3.00 KM" }] },
-                    { category: "Цијеђени Сокови", items: [{ name: "Лимунада", price: "3.50 KM" }, { name: "Цијеђена наранџа", price: "5.00 KM" }, { name: "Цијеђени микс", price: "5.00 KM" }] },
-                    { category: "Жестока Алкохолна Пића", items: [{ name: "Gorki list / Vlahov / Pelinkovac", price: "2.50 KM" }, { name: "Stock / Jeger", price: "3.00 KM" }] },
-                    { category: "Whiskey, Cognac & Gin", items: [{ name: "Jack Daniels", price: "3.50 KM" }, { name: "Jameson", price: "4.00 KM" }, { name: "Chivas", price: "6.00 KM" }, { name: "Courvoisier", price: "7.00 KM" }, { name: "Beefeater Gin", price: "4.00 KM" }] },
-                    { category: "Ракије (Коријен)", items: [{ name: "Шљива / Шљива Barique", price: "3.00 KM" }, { name: "Крушка / Крушка Barique", price: "3.00 KM" }, { name: "Кајсија / Кајсија Barique", price: "3.00 KM" }, { name: "Дуња / Дуња Barique", price: "3.00 KM" }, { name: "Јабука / Јабука Barique", price: "3.00 KM" }] },
-                    { category: "Пиво", items: [{ name: "Jelen / Becks / Staropramen", price: "3.00 KM" }, { name: "Stella Artois / Bavaria / Aspal", price: "3.50 KM" }, { name: "Stella точена 0.33", price: "3.50 KM" }, { name: "Никшићко тамно", price: "4.00 KM" }] }
+                    { category: "Топли Напици", items: [{ name: "Espresso", price: "2.50 КМ" }, { name: "Топла чоколада", price: "3.00 КМ" }, { name: "Нес", price: "2.50 КМ" }, { name: "Капућино", price: "3.00 КМ" }, { name: "Капућино апарат", price: "3.00 КМ" }, { name: "Лате Мачијато", price: "3.00 КМ" }, { name: "Чај", price: "2.50 КМ" }] },
+                    { category: "Воде", items: [{ name: "Rosa", price: "2.50 КМ" }, { name: "Vivia 0.7", price: "5.00 КМ" }, { name: "Кисела вода 0.25", price: "2.50 КМ" }, { name: "Кисела вода 1L", price: "5.00 КМ" }] },
+                    { category: "Газирани Сокови", items: [{ name: "Coca Cola / Zero", price: "3.00 КМ" }, { name: "Fanta", price: "3.00 КМ" }, { name: "Bitter Lemon / Tonik", price: "3.00 КМ" }, { name: "Танџарина", price: "3.00 КМ" }, { name: "Exotic Крушка / Лимета", price: "2.50 КМ" }, { name: "Orangina", price: "3.50 КМ" }] },
+                    { category: "Природни Сокови", items: [{ name: "Cedevita Наранџа / Лимун", price: "3.00 КМ" }, { name: "Vitaminka (Јагода, Јабука, Боровница, Бресква)", price: "3.00 КМ" }, { name: "Hidra", price: "3.00 КМ" }] },
+                    { category: "Цијеђени Сокови", items: [{ name: "Лимунада", price: "3.50 КМ" }, { name: "Цијеђена наранџа", price: "5.00 КМ" }, { name: "Цијеђени микс", price: "5.00 КМ" }] },
+                    { category: "Жестока Алкохолна Пића", items: [{ name: "Gorki list / Vlahov / Pelinkovac", price: "2.50 КМ" }, { name: "Stock / Jeger", price: "3.00 КМ" }] },
+                    { category: "Whiskey, Cognac & Gin", items: [{ name: "Jack Daniels", price: "3.50 КМ" }, { name: "Jameson", price: "4.00 КМ" }, { name: "Chivas", price: "6.00 КМ" }, { name: "Courvoisier", price: "7.00 КМ" }, { name: "Beefeater Gin", price: "4.00 КМ" }] },
+                    { category: "Ракије (Коријен)", items: [{ name: "Шљива / Шљива Barique", price: "3.00 КМ" }, { name: "Крушка / Крушка Barique", price: "3.00 КМ" }, { name: "Кајсија / Кајсија Barique", price: "3.00 КМ" }, { name: "Дуња / Дуња Barique", price: "3.00 КМ" }, { name: "Јабука / Јабука Barique", price: "3.00 КМ" }] },
+                    { category: "Пиво", items: [{ name: "Jelen / Becks / Staropramen", price: "3.00 КМ" }, { name: "Stella Artois / Bavaria / Aspal", price: "3.50 КМ" }, { name: "Stella točena 0.33", price: "3.50 КМ" }, { name: "Никшићко тамно", price: "4.00 КМ" }] }
                 ]
             },
             en: {
@@ -306,139 +1065,58 @@
             }
         };
 
-        // Promjena jezika
-        function setLanguage(lang) {
-            currentLang = lang;
-            
-            // Ažuriranje stilova dugmića
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('text-white');
-                btn.classList.add('text-[#d4a373]');
-            });
-            document.getElementById(`lang-${lang}`).classList.add('text-white');
-            document.getElementById(`lang-${lang}`).classList.remove('text-[#d4a373]');
-            
-            // Prevođenje statičnih tekstova
-            document.getElementById('hero-text').innerHTML = staticI18n[lang].hero;
-            document.getElementById('tab-jelovnik').innerText = staticI18n[lang].tab_jelovnik;
-            document.getElementById('tab-pice').innerText = staticI18n[lang].tab_pice;
-            document.getElementById('tab-galerija').innerText = staticI18n[lang].tab_galerija;
-            document.getElementById('footer-subtitle').innerText = staticI18n[lang].footer_sub;
-            document.getElementById('review-text').innerText = staticI18n[lang].review_text;
-            document.getElementById('ig-title').innerText = staticI18n[lang].ig_title;
-            
-            // Ponovno renderovanje trenutnog taba sa podacima na novom jeziku
-            if (currentTab === 'jelovnik') {
-                renderMenu(menusData[lang].jelovnik);
-            } else if (currentTab === 'pice') {
-                renderMenu(menusData[lang].pica);
-            } else if (currentTab === 'galerija') {
-                renderGallery();
-            }
-        }
-
-        // Funkcija za renderovanje menija
+        // Render Menu
         function renderMenu(data) {
             const container = document.getElementById('menu-container');
-            
-            // Re-trigger animaciju
-            container.classList.remove('fade-in');
-            void container.offsetWidth; // trigger reflow
-            container.classList.add('fade-in');
+            const grid = document.createElement('div');
+            grid.className = 'menu-grid';
 
-            let html = '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">';
-            
-            data.forEach((section, index) => {
-                html += `
-                    <div class="bg-white p-6 rounded-lg shadow-sm border border-[#eaddcf]">
-                        <h3 class="font-serif text-2xl text-rustiqe-dark font-bold mb-6 text-center border-b-2 border-rustiqe-accent pb-2">
-                            ${section.category}
-                        </h3>
-                        <ul class="space-y-4">
-                `;
-                
+            data.forEach((section, i) => {
+                const card = document.createElement('div');
+                card.className = 'menu-card';
+                card.style.transitionDelay = `${i * 0.1}s`;
+
+                let itemsHtml = '';
                 section.items.forEach(item => {
-                    html += `
-                        <li>
-                            <div class="flex justify-between items-baseline">
-                                <span class="font-bold text-gray-800 text-lg">${item.name}</span>
+                    itemsHtml += `
+                        <div class="menu-item">
+                            <div class="menu-item-header">
+                                <span class="menu-item-name">${item.name}</span>
                                 <div class="menu-item-dots"></div>
-                                <span class="font-bold text-rustiqe whitespace-nowrap">${item.price}</span>
+                                <span class="menu-item-price">${item.price}</span>
                             </div>
-                            ${item.description ? `<p class="text-sm text-gray-500 italic mt-1">${item.description}</p>` : ''}
-                        </li>
+                            ${item.description ? `<p class="menu-item-desc">${item.description}</p>` : ''}
+                        </div>
                     `;
                 });
-                
-                html += `
-                        </ul>
+
+                card.innerHTML = `
+                    <div class="menu-card-header">
+                        <h3>${section.category}</h3>
+                    </div>
+                    <div class="menu-card-body">
+                        ${itemsHtml}
                     </div>
                 `;
+
+                grid.appendChild(card);
             });
-            
-            html += '</div>';
 
-            // Dodavanje prevoda za rezervacije
-            const resText = staticI18n[currentLang].reservations;
-            html += `
-                <div class="mt-12 text-center py-8">
-                    <p class="font-serif text-xl md:text-2xl text-rustiqe-dark font-bold italic">
-                        ${resText} 
-                        <a href="tel:+38766707237" class="hover:text-rustiqe-accent transition-colors underline decoration-dotted underline-offset-4">+38766707237</a> 
-                        i 
-                        <a href="tel:+38766624343" class="hover:text-rustiqe-accent transition-colors underline decoration-dotted underline-offset-4">+38766624343</a>.
-                    </p>
-                </div>
-            `;
+            container.innerHTML = '';
+            container.appendChild(grid);
 
-            container.innerHTML = html;
+            // Animate cards after render
+            setTimeout(() => {
+                document.querySelectorAll('.menu-card').forEach((card, i) => {
+                    setTimeout(() => card.classList.add('visible'), i * 100);
+                });
+            }, 100);
         }
 
-        // Funkcija za renderovanje galerije
-        function renderGallery() {
-            const container = document.getElementById('menu-container');
-            
-            // Re-trigger animaciju
-            container.classList.remove('fade-in');
-            void container.offsetWidth; // trigger reflow
-            container.classList.add('fade-in');
-
-            let html = '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">';
-            
-            galleryImages.forEach(imgSrc => {
-                html += `
-                    <div class="aspect-[9/16] overflow-hidden rounded-lg shadow-sm border border-[#eaddcf] group bg-rustiqe-light flex items-center justify-center">
-                        <img src="${imgSrc}" alt="Rustiqe Galerija" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.onerror=null; this.outerHTML='<div class=\\'text-rustiqe-accent font-serif italic p-4 text-center\\'>[Slika: ${imgSrc}]</div>';">
-                    </div>
-                `;
-            });
-            
-            html += '</div>';
-
-            // Dodavanje prevoda za rezervacije
-            const resText = staticI18n[currentLang].reservations;
-            html += `
-                <div class="mt-12 text-center py-8">
-                    <p class="font-serif text-xl md:text-2xl text-rustiqe-dark font-bold italic">
-                        ${resText} 
-                        <a href="tel:+38766707237" class="hover:text-rustiqe-accent transition-colors underline decoration-dotted underline-offset-4">+38766707237</a> 
-                        i 
-                        <a href="tel:+38766624343" class="hover:text-rustiqe-accent transition-colors underline decoration-dotted underline-offset-4">+38766624343</a>.
-                    </p>
-                </div>
-            `;
-
-            container.innerHTML = html;
-        }
-
-        // Funkcija za promjenu tabova
+        // Switch Tab
         function switchTab(tab) {
             currentTab = tab;
-            
-            document.getElementById('tab-jelovnik').classList.remove('active');
-            document.getElementById('tab-pice').classList.remove('active');
-            document.getElementById('tab-galerija').classList.remove('active');
-            
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`tab-${tab}`).classList.add('active');
 
             if (tab === 'jelovnik') {
@@ -450,24 +1128,97 @@
             }
         }
 
-        // Inicijalno učitavanje
-        window.onload = () => {
-            setLanguage('lat'); // Početni jezik
+        // Set Language
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+
+            // Hero
+            document.getElementById('hero-text').innerHTML = staticI18n[lang].hero;
+
+            // Tabs
+            document.getElementById('tab-jelovnik').innerText = staticI18n[lang].tab_jelovnik;
+            document.getElementById('tab-pice').innerText = staticI18n[lang].tab_pice;
+            document.getElementById('tab-galerija').innerText = staticI18n[lang].tab_galerija;
+
+            // Footer
+            document.getElementById('footer-tagline').innerText = staticI18n[lang].footer_sub;
+            document.getElementById('review-label').innerText = staticI18n[lang].review_text;
+
+            // Reservation
+            const resText = staticI18n[lang].reservations;
+            document.getElementById('reservation-title').textContent = resText;
+            document.getElementById('reservation-phones').innerHTML = `
+                <a href="tel:+38766707237" class="reservation-phone">+387 66 707 237</a> 
+                <span class="mx-4 opacity-50">|</span> 
+                <a href="tel:+38766624343" class="reservation-phone">+387 66 624 343</a>
+            `;
+
+            // Re-render menu
+            switchTab(currentTab);
+        }
+
+        // Scroll Animations
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el));
+        }
+
+        // Smooth reveal on DOM ready or load
+        const finishLoading = () => {
+            const loader = document.getElementById('loader');
+            if (!loader || loader.classList.contains('hidden')) return;
+            loader.classList.add('hidden');
         };
-        
-        // Brisanje Elfsight Watermark-a pomoću JS-a da se spriječi prikaz
+
+        const initializePage = () => {
+            initScrollAnimations();
+            switchTab('jelovnik');
+            finishLoading();
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(initializePage, 300);
+        });
+
+        window.addEventListener('load', () => {
+            setTimeout(finishLoading, 800);
+        });
+
+        // Fallback hide if load event never fires due external resource stall
+        setTimeout(finishLoading, 5000);
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroBg = document.querySelector('.hero-bg');
+            if (heroBg) {
+                heroBg.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Elfsight watermark removal
         const removeElfsightWatermark = () => {
             const selectors = ['a[href*="elfsight.com"]', '.eapps-link'];
-            
-            // Standardni DOM
             selectors.forEach(selector => {
                 document.querySelectorAll(selector).forEach(el => {
                     el.style.display = 'none';
                     el.remove();
                 });
             });
-
-            // Shadow DOM
             const widgetContainer = document.querySelector('.elfsight-app-a9264053-a868-468d-8655-cf4835ee67bd');
             if (widgetContainer && widgetContainer.shadowRoot) {
                 selectors.forEach(selector => {
@@ -478,9 +1229,129 @@
                 });
             }
         };
-
-        // Pokreni provjeru više puta jer se widget učitava asinhrono
         setInterval(removeElfsightWatermark, 500);
+
+        if (location.search.includes('admin=1')) {
+            const ADMIN_PASS = 'rustiqe2026';
+            const state = {
+                lang: 'lat',
+                tab: 'jelovnik',
+                data: { meni: { lat:{jelovnik:[],pica:[]}, cyr:{jelovnik:[],pica:[]}, en:{jelovnik:[],pica:[]} }, galerija:[] }
+            };
+            const load = () => {
+                const s = localStorage.getItem('rustiqe_site'); if (s) try { state.data = JSON.parse(s); } catch {}
+            };
+            const save = () => localStorage.setItem('rustiqe_site', JSON.stringify(state.data));
+            const status = (msg, ok=true) => {
+                const el = document.getElementById('admin-status'); if (!el) return;
+                el.textContent = msg;
+                el.className = ok ? 'rSuccess' : 'rError';
+                setTimeout(()=> el.className='rStatus', 2500);
+            };
+            const esc = s => String(s).replace(/[&<>'"\\]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;','\\':'&#92;'}[c]));
+            const updateItem = (lang, tab, ci, ii, field, val) => { if (state.data.meni[lang][tab][ci] && state.data.meni[lang][tab][ci].items[ii]) { state.data.meni[lang][tab][ci].items[ii][field] = val; save(); } };
+            const renderMenu = () => {
+                const data = state.data.meni[state.lang]?.[state.tab] || [];
+                const list = document.getElementById('admin-menu-list'); if (!list) return;
+                list.innerHTML = data.map((cat, ci) => `<div class="rCard"><div class="rRow"><strong contenteditable="true" data-cat="${ci}" style="flex:1;min-width:0;">${esc(cat.category)}</strong> <button class="rBtnDanger" data-act="delCat" data-i="${ci}">×</button></div>` + cat.items.map((it, ii) => `<div class="rItem"><input class="rInp" value="${esc(it.name)}" oninput="updateItem('${state.lang}','${state.tab}',${ci},${ii},'name',this.value)" placeholder="Naziv"/><input class="rInp" value="${esc(it.price)}" oninput="updateItem('${state.lang}','${state.tab}',${ci},${ii},'price',this.value)" placeholder="Cena" style="max-width:110px"/><input class="rInp" value="${esc(it.description||'')}" oninput="updateItem('${state.lang}','${state.tab}',${ci},${ii},'description',this.value)" placeholder="Opis" style="max-width:160px"/><button class="rBtnDanger" data-act="delItem" data-ci="${ci}" data-ii="${ii}">×</button></div>`).join('') + `</div>`).join('');
+            };
+            const renderGallery = () => {
+                const grid = document.getElementById('admin-gallery-grid'); if (!grid) return;
+                grid.innerHTML = state.data.galerija.map((src, i) => `<div class="rGalItem"><img src="${src}" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22><rect width=%22200%22 height=%22200%22 fill=%22%23eee%22/><text x=%22100%22 y=%22105%22 text-anchor=%22middle%22 fill=%22%23999%22 font-size=%2212%22>?</text></svg>';"/><button class="rBtnDanger" data-act="delImg" data-i="${i}">×</button></div>`).join('');
+            };
+            document.addEventListener('input', e => {
+                const t = e.target;
+                if (!t.dataset.f) return;
+                const it = state.data.meni[state.lang][state.tab][+t.dataset.ci].items[+t.dataset.ii];
+                if (t.dataset.f === 'n') it.name = t.value; else if (t.dataset.f === 'p') it.price = t.value; else if (t.dataset.f === 'd') it.description = t.value;
+                save();
+            });
+            document.addEventListener('click', e => {
+                const b = e.target.closest('button'); if (!b) return;
+                const act = b.dataset.act;
+                if (act === 'delCat') { if (!confirm('Obrisati kategoriju?')) return; state.data.meni[state.lang][state.tab].splice(+b.dataset.i,1); renderMenu(); save(); }
+                if (act === 'delItem') { state.data.meni[state.lang][state.tab][+b.dataset.ci].items.splice(+b.dataset.ii,1); renderMenu(); save(); }
+                if (act === 'delImg') { state.data.galerija.splice(+b.dataset.i,1); renderGallery(); save(); }
+                if (act === 'addCat') { const n = prompt('Naziv kategorije:'); if (n) { state.data.meni[state.lang][state.tab].push({category:n, items:[]}); renderMenu(); save(); } }
+                if (act === 'addItem') { const sel = document.getElementById('admin-cat-select'); const idx = sel && sel.value; const n = prompt('Naziv:'); if (!n) return; const p = prompt('Cena (po izboru):') || ''; const d = prompt('Opis (po izboru):') || ''; if (!state.data.meni[state.lang][state.tab].length || idx === '') state.data.meni[state.lang][state.tab].push({category:'Nova', items:[]}); state.data.meni[state.lang][state.tab][(idx && idx !== '') ? +idx : 0].items.push({name:n, price:p, description:d}); renderMenu(); save(); }
+                if (act === 'addImg') { const u = prompt('URL slike (za više odvoji zarezom):'); if (!u) return; u.split(',').map(x=>x.trim()).filter(Boolean).forEach(v => state.data.galerija.push(v)); renderGallery(); save(); status('Slike dodate'); }
+                if (act === 'imp') document.getElementById('admin-file').click();
+                if (act === 'exp') { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(state.data,null,2)], {type:'application/json'})); a.download = 'site-data.json'; a.click(); status('JSON exportovan'); }
+            });
+            document.addEventListener('change', e => {
+                if (e.target.id === 'admin-lang') { state.lang = e.target.value; renderMenu(); }
+                if (e.target.id === 'admin-tab') { state.tab = e.target.value; renderMenu(); }
+                if (e.target.id === 'admin-cat-select') { /* just selection */ }
+            });
+            window.addEventListener('dragover', e => { const g = e.target.closest('#admin-gallery-grid'); if (g) e.preventDefault(); });
+            window.addEventListener('drop', e => { const g = e.target.closest('#admin-gallery-grid'); if (!g) return; e.preventDefault(); const i = [...g.querySelectorAll('.rGalItem')].indexOf(document.elementFromPoint(e.clientX, e.clientY)); if (i >= 0 && e.dataTransfer) { const m = e.dataTransfer.getData('text/plain'); const el = g.querySelector(`[data-idx="${m}"]`); if (el) el.parentNode.insertBefore(el, g.children[i]); const arr = [...g.querySelectorAll('.rGalItem')].map(x => x.querySelector('img').src); state.data.galerija = arr; save(); } });
+            const startAdmin = () => {
+                const ui = document.createElement('div');
+                ui.id = 'admin-ui';
+                ui.innerHTML = `
+<div id="admin-bar" style="position:fixed;top:10px;right:10px;z-index:99999;background:#1a0f0a;color:#f9f6f0;padding:12px 16px;border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.35);font-family:Inter,system-ui,sans-serif;min-width:420px;max-width:calc(100vw - 20px);">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+    <strong style="font-size:14px;letter-spacing:.08em;">🔐 Admin</strong>
+    <select id="admin-lang" style="min-width:70px"><option value="lat">LAT</option><option value="cyr">ĆIR</option><option value="en">EN</option></select>
+    <select id="admin-tab" style="min-width:120px"><option value="jelovnik">Jelovnik</option><option value="pica">Pića</option></select>
+    <select id="admin-cat-select" style="min-width:120px"></select>
+    <button data-act="addCat" class="rBtn" style="background:#d4a373;color:#1a0f0a;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;">+ Kat.</button>
+    <button data-act="addItem" class="rBtn" style="background:#8b5a2b;color:white;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;">+ Stavka</button>
+    <button data-act="addImg" class="rBtn" style="background:#3e2723;color:#f9f6f0;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;">+ Slika</button>
+    <button data-act="imp" class="rBtn" style="background:#6b7280;color:white;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;">Import</button>
+    <button data-act="exp" class="rBtn" style="background:#6b7280;color:white;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;">Export</button>
+    <input type="file" id="admin-file" accept="application/json" style="display:none"/>
+  </div>
+  <div id="admin-status" class="rStatus" style="margin-top:8px;font-size:12px;"></div>
+  <div style="margin-top:12px;max-height:50vh;overflow:auto;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px;">
+    <div id="admin-menu-list" style="display:grid;gap:10px;"></div>
+    <div style="margin-top:10px;">
+      <div style="font-weight:700;color:#d4a373;margin-bottom:6px;">Galerija</div>
+      <div id="admin-gallery-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;"></div>
+    </div>
+  </div>
+</div>
+<style>
+#admin-ui * { box-sizing: border-box; }
+#admin-ui .rBtn { font-weight:500; }
+#admin-ui .rBtnDanger { background:#dc2626;color:white;border:none;border-radius:6px;width:24px;height:24px;cursor:pointer;font-size:14px;padding:0; }
+#admin-ui .rItem { display:flex;gap:6px;align-items:center;padding:6px;background:rgba(255,255,255,.04);border-radius:8px; }
+#admin-ui .rInp { background:rgba(255,255,255,.06);color:#f9f6f0;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:6px 8px;font-size:13px;flex:1;min-width:0; }
+#admin-ui .rCard { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:10px; }
+#admin-ui .rRow { display:flex;justify-content:space-between;align-items:center;gap:8px; }
+#admin-ui .rGalItem { position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.08);cursor:grab; }
+#admin-ui .rGalItem img { width:100%;height:100%;object-fit:cover;display:block; }
+#admin-ui .rGalItem button.rBtnDanger { position:absolute;top:3px;right:3px; }
+#admin-ui .rStatus { color:#9ca3af;font-size:12px;min-height:16px; }
+#admin-ui .rSuccess { color:#86efac; }
+#admin-ui .rError { color:#fca5a5; }
+</style>
+`;
+                document.body.appendChild(ui);
+                const login = () => {
+                    const p = prompt('Admin šifra:');
+                    if (p !== ADMIN_PASS) { alert('Pogrešna šifra'); return; }
+                    ui.querySelector('#admin-bar').style.display = 'block';
+                    load(); renderMenu(); renderGallery();
+                    const catSel = document.getElementById('admin-cat-select');
+                    const refreshCats = () => {
+                        const cur = catSel.value;
+                        catSel.innerHTML = '<option value="">-- Kategorija --</option>' + (state.data.meni[state.lang]?.[state.tab]||[]).map((c,i)=>`<option value="${i}">${esc(c.category)}</option>`).join('');
+                        if (state.data.meni[state.lang]?.[state.tab].some((_,i)=>String(i)===cur)) catSel.value = cur;
+                    };
+                    refreshCats();
+                    const observer = new MutationObserver(refreshCats);
+                    observer.observe(document.getElementById('admin-menu-list'), {childList:true});
+                };
+                ui.querySelector('#admin-bar').style.display = 'none';
+                login();
+                document.getElementById('admin-file').addEventListener('change', e => {
+                    const f = e.target.files[0]; if (!f) return; const r = new FileReader();
+                    r.onload = ev => { try { state.data = JSON.parse(ev.target.result); save(); renderMenu(); renderGallery(); status('Import OK'); } catch { alert('Neispravan JSON'); } } ; r.readAsText(f);
+                });
+            };
+            startAdmin();
+        }
     </script>
 </body>
 </html>
